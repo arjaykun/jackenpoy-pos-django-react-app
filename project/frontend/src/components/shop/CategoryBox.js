@@ -3,8 +3,8 @@ import React from 'react';
 function CategoryBox(props) {
 
 	const styles = {
-		width: '80px',
-		height: '80px',
+		width: '70px',
+		height: '70px',
 	};
 
 	const color = {

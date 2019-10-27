@@ -1,4 +1,6 @@
-import { GET_CART, ADD_ITEM_IN_CART, REMOVE_ITEM_IN_CART, CLEAR_CART, CHANGE_QUANTITY } from './types';
+import { GET_CART, ADD_ITEM_IN_CART, 
+		REMOVE_ITEM_IN_CART, CLEAR_CART, 
+		CHANGE_QUANTITY, ADD_DISCOUNT } from './types';
 import { createMessage } from './messages';
 
 // GET ITEMS 
@@ -15,7 +17,7 @@ export const addInCart = item => dispatch => {
 	console.log('add item in cart');
 	dispatch({
 		type: ADD_ITEM_IN_CART,
-		payload: {item},
+		payload: item,
 	});
 };
 
@@ -39,10 +41,18 @@ export const removeInCart = (id, name) => dispatch => {
 
 //CLEAR ALL ITEM IN CART
 export const clearCart = () => dispatch => {
-	console.log('clear all item in cart');
-	if(confirm("Are you sure you want to remove all item in order list?")) {
-		dispatch({
-			type: CLEAR_CART,
-		})	
-	} 
+	console.log('clear all item in cart');	
+	dispatch(createMessage({CartCleared: "Items in the order list is cleared."}));
+	dispatch({
+		type: CLEAR_CART,
+	})	
 };
+
+//ADD DISCOUNT TO AN ITEM
+export const addDiscount = item => dispatch => {
+	console.log('add discount');
+	dispatch({
+		type: ADD_DISCOUNT,
+		payload: item
+	})
+}

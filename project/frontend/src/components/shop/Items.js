@@ -36,7 +36,7 @@ function Items(props) {
 				</div>
 			</div>
 			<div className="row flex-fill">
-				<div className="col-md-7 p-1">
+				<div className="col-md-6 p-1">
 					<div className="card p-2 d-flex flex-column">
 					{/*Category items*/}
 						<div className="d-flex border-bottom pb-2 mb-2">
@@ -67,6 +67,7 @@ function Items(props) {
 									 				id: item.id,
 									 				name:item.name,
 									 				price: item.price,
+									 				discounted_price:0,
 									 				quantity: 1,
 									 			})} />
 								 		))
@@ -82,7 +83,7 @@ function Items(props) {
 						</div>
 					</div>
 			 	</div>
-			 	<div className="col-md-5 p-1">
+			 	<div className="col-md-6 p-1">
 			 		<div className="card p-2">
 			 			<OrderSummary />
 			 		</div>

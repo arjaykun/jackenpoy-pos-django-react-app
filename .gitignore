@@ -3,5 +3,5 @@ package-lock.json
 .babelrc
 **/__init__.py
 **/__pycache__
-**/.sqlite3
+project/db.sqlite3
 **/manage.py

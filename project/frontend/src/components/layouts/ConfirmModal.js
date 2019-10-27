@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 
 function ConfirmModal(props) {
-
 	return(
 		<Fragment>
 		  <div className="modal fade" id="confirmModal">
@@ -14,8 +13,15 @@ function ConfirmModal(props) {
 		        </div>
 		        
 		        <div className="modal-body d-flex justify-content-center">
-		         	<button className="btn btn-primary mx-1 px-2">YES</button>
-		         	<button className="btn btn-danger mx-1 px-2">NO</button>
+		         	<button 
+		         		className="btn btn-primary mx-1"
+		         		onClick={ () => props.onClickYes()}
+		         		data-dismiss="modal"
+		         	>YES</button>
+		         	<button 
+		         		className="btn btn-danger mx-1"
+		         		data-dismiss="modal"
+		         	>NO</button>
 		        </div>
 		        
 		      </div>

@@ -38,6 +38,7 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     total_price = models.FloatField()
+    discounted_price = models.FloatField()
     ordered_date = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(default=False)
 
