@@ -11,3 +11,5 @@ export const ADD_DISCOUNT = 'ADD_DISCOUNT';
 
 export const GET_ERRORS = 'GET_ERRORS';
 export const CREATE_MESSAGE = 'CREATE_MESSAGE';
+
+export const CREATE_ORDER = 'CREATE_ORDER';

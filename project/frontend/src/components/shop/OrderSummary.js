@@ -1,9 +1,14 @@
 import React, { Fragment, useEffect, useState }from 'react';
 import { connect } from 'react-redux';
-import { getCart, removeInCart, clearCart, changeQuantity, addDiscount } from '../../actions/cart';
+import { getCart, 
+		removeInCart, 
+		clearCart, 
+		changeQuantity, 
+		addDiscount } from '../../actions/cart';
 import PropTypes from 'prop-types';
 import QuantityModal from '../layouts/QuantityModal';
 import ConfirmModal from '../layouts/ConfirmModal';
+import Order from './Order';
 
 function OrderSummary(props) {
 	const propTypes = {
@@ -109,14 +114,7 @@ function OrderSummary(props) {
 			
 			{
 				(cart.items.length> 0)?
-					<Fragment>
-						<div className="text-right bg-secondary p-3">
-							<h3>Amount Due: <strong>&#8369;{cart.total}</strong> </h3>
-						</div>
-						<button className="btn btn-primary btn-block">
-							Checkout <i className="fas fa-check-circle"></i> 
-						</button>
-					</Fragment>
+					<Order />
 				:
 					<div></div>
 			}
