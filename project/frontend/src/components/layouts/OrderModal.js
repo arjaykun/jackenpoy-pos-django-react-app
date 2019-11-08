@@ -60,7 +60,7 @@ function OrderModal(props) {
 		      
 		        <div className="modal-header">
 		          <h3 className="modal-title text-center">
-		          	Order Checkout <i className="fas fa-check-circle text-primary"> </i>
+		          	Tendering <i className="fas fa-calculator text-primary"> </i>
 		          </h3>
 		          <button type="button" className="close" data-dismiss="modal">&times;</button>
 		        </div>
@@ -99,7 +99,7 @@ function OrderModal(props) {
 				          	disabled={error}
 				          	data-dismiss="modal"
 				          	onClick={handeSubmit}
-				          >Submit</button>
+				          >Tender</button>
 				          <button 
 				          	type="button" 
 				          	className="btn btn-secondary" 
