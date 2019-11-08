@@ -8,6 +8,7 @@ import { GET_CART,
 const initialState = {
 	items: [],
 	total: 0,
+	discounted: 0,
 };
 
 function getItems(p_items, item=null) {
@@ -20,6 +21,7 @@ function getItems(p_items, item=null) {
 			}):
 			[...p_items, item] : 
 		p_items;
+
 	const items = new_items.map( i => {
 		const subtotal = Number(i.price) * i.quantity; 
 		if(i.discounted_price > 0) {	
@@ -31,10 +33,17 @@ function getItems(p_items, item=null) {
 
 	const total = items.reduce( (total, item) => {
 		const subtotal = item.discounted_price > 0 ? 
-			item.discounted_price : item.subtotal
+			item.discounted_price : item.subtotal;
 		return total + subtotal;
 	}, 0);
-	return items ? { items, total }: {};
+
+	const discounted = items.reduce( (total, item) => {
+		const subtotal = item.discounted_price > 0 ? 
+			item.subtotal - item.discounted_price : 0;
+		return total + subtotal;
+	}, 0);
+
+	return items ? { items, total, discounted }: {};
 }
 
 function removeItem(items, id) {
@@ -80,20 +89,17 @@ export default function(state=initialState, action) {
 		case ADD_ITEM_IN_CART:
 			return{
 				...state,
-				items: getItems(state.items, action.payload).items,
-				total: getItems(state.items, action.payload).total
+				...getItems(state.items, action.payload)
 			}
 		case REMOVE_ITEM_IN_CART:
 			return {
 				...state,
-				items: removeItem(state.items, action.payload).items,
-				total: removeItem(state.items, action.payload).total
+				...removeItem(state.items, action.payload)
 			}
 		case CHANGE_QUANTITY:
 			return {
-				...state, 
-				items: changeQuantity(state.items, action.payload.item, action.payload.quantity).items,
-				total: changeQuantity(state.items, action.payload.item, action.payload.quantity).total
+				...state,
+				...changeQuantity(state.items, action.payload.item, action.payload.quantity)
 			}
 		case CLEAR_CART:
 			return {
@@ -103,8 +109,7 @@ export default function(state=initialState, action) {
 		case ADD_DISCOUNT:
 			return {
 				...state,
-				items: addDiscount(state.items, action.payload).items,
-				total: addDiscount(state.items, action.payload).total,
+				...addDiscount(state.items, action.payload)
 			}
 		default:
 			return state;

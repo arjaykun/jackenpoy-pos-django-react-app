@@ -27,7 +27,6 @@ class Item(models.Model):
     price = models.FloatField()
     category = models.ForeignKey(
         Category, related_name="items", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=True)
 
     def __str__(self):
@@ -49,7 +48,10 @@ class Order(models.Model):
 class OrderItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    discounted_price = models.FloatField()
+    subtotal = models.FloatField()
+    order = models.ForeignKey(
+        Order, related_name='order_items', on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.item.name} - {self.quantity} pcs."
