@@ -4,4 +4,5 @@ package-lock.json
 **/__init__.py
 **/__pycache__
 project/db.sqlite3
+project/frontend/static/frontend/main.js
 **/manage.py
