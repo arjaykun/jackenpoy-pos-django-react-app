@@ -1,30 +1,57 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout }  from '../../actions/auth' 
 
 class Header extends Component {
+	static propTypes = {
+		auth: PropTypes.object.isRequired,
+		logout: PropTypes.func.isRequired,
+	}
+
 	render() {
+		const { isAuthenticated, user } = this.props.auth;
+
+		const authLinks = (
+			<Fragment>
+				 <span className="text-light">{user?user.username: ""}</span>
+			     <button className="btn btn-small btn-link text-light"
+			     		onClick ={this.props.logout}>
+			     	Logout <i className=""> </i>
+			     </button>
+		     </Fragment>
+		   
+		);
+
+		const guestLinks = (
+			<Link className="nav-link" to="/login">
+		        <button className="btn btn-small btn-link text-light">
+		        	Login <i className=""> </i>
+		        </button>
+		     </Link>
+		);
+
 		return (
 			 <nav className="navbar navbar-expand-md bg-dark navbar-dark">
 				<div className="container">
 				  {/*<!-- Brand -->*/}
 				  <a className="navbar-brand" href="#">Jack en Poy</a>
 
-				  {/*<!-- Toggler/collapsibe Button -->*/}
-				  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-				    <span className="navbar-toggler-icon"></span>
-				  </button>
-
 				  {/*<!-- Navbar links -->*/}
-				  <div className="collapse navbar-collapse" id="collapsibleNavbar">
-				    <ul className="navbar-nav ml-auto">
-				      <li className="nav-item">
-				        <a className="nav-link" href="#">Login</a>
-				      </li>
+				  	<ul className="navbar-nav ml-auto">
+				      <li className="nav-item">	
+						   { isAuthenticated? authLinks: guestLinks }
+				       </li>
 				    </ul>
-				  </div>
 				</div>
 			</nav> 
 		);
 	}
 }
 
-export default Header
+const mapStateToProps = state => ({
+	auth: state.auth
+});
+
+export default connect(mapStateToProps, { logout })(Header)

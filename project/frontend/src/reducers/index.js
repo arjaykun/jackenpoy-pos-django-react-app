@@ -4,6 +4,7 @@ import errorsReducer from './errorsReducer';
 import messagesReducer from './messagesReducer';
 import cartReducer from './cartReducer';
 import orderReducer from './orderReducer';
+import authReducer from './authReducer';
 
 export default combineReducers({
 	items: itemsReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
 	order: orderReducer,
 	errors: errorsReducer,
 	messages: messagesReducer,
+	auth: authReducer,
 });

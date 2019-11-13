@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/', include('shop.urls')),
     path('', include('frontend.urls')),
-
+    path('', include('accounts.urls')),
     # rest framework urls
     path('api/', include('shop.urls', 'shop')),
 ]

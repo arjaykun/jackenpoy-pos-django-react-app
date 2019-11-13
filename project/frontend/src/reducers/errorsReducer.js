@@ -1,8 +1,9 @@
 import { GET_ERRORS } from '../actions/types.js';
 
 const initialState = {
-	msg: {},
-	status: null,
+	msg: '',
+	status: 0,
+	statusText: '',
 };
 
 export default function(state=initialState, action) {
@@ -11,6 +12,7 @@ export default function(state=initialState, action) {
 			return {
 				msg: action.payload.msg,
 				status: action.payload.status,
+				statusText: action.payload.statusText
 			}
 		default:
 			return state;

@@ -2,21 +2,49 @@ import axios from 'axios';
 import { GET_ITEMS, GET_ERRORS, FILTER_BY_CATEGORY } from './types';
 import { createMessage } from './messages';
 
-// GET ITEMS 
-export const getItems = () => dispatch => {
+
+
+export const getItems = () => (dispatch, getState) => {
+	// get token from state
+	const token = getState().auth.token;
+	// set headers
+	const config = {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}
+
+	// if token, add headers to config
+	if(token) {
+		config.headers['Authorization'] = `Token ${token}`;
+	}
 	console.log('getting items');
-	 axios.get('api/items/')
+	 axios.get('api/items/',config)
 	 	.then(res => {
-	 		axios.get('api/categories/')
+	 		axios.get('api/categories/', config)
 			.then( cat => {
 		 		dispatch({
 		 			type: GET_ITEMS,
 		 			payload: {items: res.data, categories: cat.data} 
 		 		});
 			})
-			.catch(err => console.log(err))
+			.catch(err => {
+				dispatch({
+					type: GET_ERRORS,
+					payload: err
+				})
+			})
 	 	})
-		.catch(err => console.log(err))
+		.catch(err => {
+			dispatch({
+					type: GET_ERRORS,
+					payload: {
+						msg: err.response.data.detail,
+						status: err.response.status,
+						statusText: err.response.statusText
+					}
+				})
+		})
 }
 
 

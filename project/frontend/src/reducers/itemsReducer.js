@@ -22,8 +22,10 @@ export default function(state=initialState, action) {
 				filtered_items: state.items.filter( i => i.category === action.payload),
 				loading: false,
 			}
-		
 		default:
-			return state;
+			return {
+				...state,
+				loading:false
+			};
 	}
 }

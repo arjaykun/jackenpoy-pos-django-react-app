@@ -7,7 +7,7 @@ import ItemBox from './ItemBox';
 import CategoryBox from './CategoryBox';
 import OrderSummary from './OrderSummary';
 import Loader from '../layouts/Loader';
-
+import ERROR_404 from '../layouts/ERROR_404';
 function Items(props) {
 
 	const propTypes = {
@@ -17,6 +17,8 @@ function Items(props) {
 		getItems: PropTypes.func.isRequired,
 		addInCart: PropTypes.func.isRequired,
 		filterItemsByCategory: PropTypes.func.isRequired,
+		error: PropTypes.object.isRequired,
+		isAuthenticated: PropTypes.bool
 	}
 
 	useEffect ( ()=> {
@@ -25,6 +27,11 @@ function Items(props) {
 
 
 	return (
+		<Fragment>
+		{
+		props.loading?
+			<Loader />	
+		:
 		<div className="container mt-3 d-flex">
 			<div>
 				<div className="d-flex flex-column justify-content-center 
@@ -54,29 +61,26 @@ function Items(props) {
 						<div>
 					 		<div className="d-flex justify-content-center">
 					 		{
-					 			props.loading?
-						 			<Loader />
-							 	:
-							 		props.items.length > 0 ?
-								 		props.items.map( item => (
-								 			<ItemBox 
-									 			item={item} 
-									 			key={item.id} 
-									 			categories={props.categories}
-									 			onClick={() => props.addInCart({
-									 				id: item.id,
-									 				name:item.name,
-									 				price: item.price,
-									 				discounted_price:0,
-									 				quantity: 1,
-									 			})} />
-								 		))
-							 		:
-							 			<h5 className="jumbotron text-center">
-							 				<small>Choose a category to see menu items under it.
-							 					<br /> OR search an item via search box.
-							 				</small>
-							 			</h5>
+						 		props.items.length > 0 ?
+							 		props.items.map( item => (
+							 			<ItemBox 
+								 			item={item} 
+								 			key={item.id} 
+								 			categories={props.categories}
+								 			onClick={() => props.addInCart({
+								 				id: item.id,
+								 				name:item.name,
+								 				price: item.price,
+								 				discounted_price:0,
+								 				quantity: 1,
+								 			})} />
+							 		))
+						 		:
+						 			<h5 className="jumbotron text-center">
+						 				<small>Choose a category to see menu items under it.
+						 					<br /> OR search an item via search box.
+						 				</small>
+						 			</h5>
 
 						 		}
 					 		</div>
@@ -90,6 +94,8 @@ function Items(props) {
 			 	</div>
 		 	</div>
 		</div>
+		}
+		</Fragment>
 	);
 }
 
@@ -97,7 +103,7 @@ const mapStateToProps = state => ({
 	items: state.items.filtered_items,
 	categories: state.items.categories,
 	loading: state.items.loading, 
-	placeholder: state.items.placeholder,
+	isAuthenticated: state.auth.isAuthenticated
 });
 
 
