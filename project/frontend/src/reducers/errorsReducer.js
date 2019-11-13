@@ -1,7 +1,7 @@
 import { GET_ERRORS } from '../actions/types.js';
 
 const initialState = {
-	msg: '',
+	msg: null,
 	status: 0,
 	statusText: '',
 };

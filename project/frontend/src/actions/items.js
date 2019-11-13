@@ -5,19 +5,10 @@ import { createMessage } from './messages';
 
 
 export const getItems = () => (dispatch, getState) => {
-	// get token from state
-	const token = getState().auth.token;
-	// set headers
-	const config = {
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	}
 
-	// if token, add headers to config
-	if(token) {
-		config.headers['Authorization'] = `Token ${token}`;
-	}
+	// create header
+	const config = createHeader(getState().auth.token);
+
 	console.log('getting items');
 	 axios.get('api/items/',config)
 	 	.then(res => {
@@ -58,7 +49,19 @@ export const filterItemsByCategory = category_id => dispatch => {
 }
 
 
-// export const getCategories = () => dispatch => {
-// 	console.log('getting categories');
-	
-// }
+const createHeader = token => {
+	// set headers
+	const config = {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}
+
+	// if token, add headers to config
+	if(token) {
+		config.headers['Authorization'] = `Token ${token}`;
+	}
+
+	return config;
+}
+
