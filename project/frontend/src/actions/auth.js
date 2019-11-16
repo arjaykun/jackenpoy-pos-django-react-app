@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS } from './types';
 import { createMessage, createError } from './messages';
-
+import createHeader from './createHeader';
 
 // CHECK USER AND LOAD USER 
 export const loadUser = () => (dispatch, getState) => {
@@ -80,19 +80,3 @@ export const logout = () => (dispatch, getState) => {
 		})
 }
 
-
-const createHeader = token => {
-	// set headers
-	const config = {
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	}
-
-	// if token, add headers to config
-	if(token) {
-		config.headers['Authorization'] = `Token ${token}`;
-	}
-
-	return config;
-}

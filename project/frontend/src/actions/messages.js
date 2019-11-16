@@ -1,4 +1,4 @@
-import { CREATE_MESSAGE, GET_ERRORS } from "./types"
+import { CREATE_MESSAGE, GET_ERRORS, CLEAR_ERROR } from "./types"
 
 export const createMessage = msg => {
 	return {
@@ -15,5 +15,11 @@ export const createError = err => {
 			status: err.status,
 			statusText: err.statusText
 		}
+	}
+}
+
+export const clearError = () => {
+	return {
+		type: CLEAR_ERROR,
 	}
 }

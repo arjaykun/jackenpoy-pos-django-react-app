@@ -4,11 +4,14 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 import Header from "./layouts/Header";
 import Alerts from "./layouts/Alerts";
+
+import Menu from "./admin/Menu";
+import AdminDashboard from "./admin/AdminDashboard";
+import Users from "./admin/Users";
 import Dashboard from "./Dashboard";
 import Items from "./shop/Items";
 import Login from "./accounts/Login";
 import PrivateRoute from "./common/PrivateRoute";
-
 
 import { Provider } from "react-redux";
 import store from "../store";
@@ -40,6 +43,11 @@ class App extends Component {
 								<Switch>
 									<PrivateRoute exact path="/" component={Dashboard} />
 									<PrivateRoute exact path="/shop" component={Items} />
+									<PrivateRoute exact path="/admin" component={AdminDashboard} />
+									<PrivateRoute exact path="/admin/users" component={Users} />
+									<PrivateRoute exact path="/admin/menu" component={Menu} />
+									<PrivateRoute exact path="/admin/orders" component={AdminDashboard} />
+									<PrivateRoute exact path="/admin/sales" component={AdminDashboard} />
 									<Route exact path="/login" component={Login} />
 								</Switch>
 						</Fragment>

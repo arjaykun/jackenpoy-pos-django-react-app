@@ -1,4 +1,6 @@
-from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView
+from rest_framework.generics import (ListAPIView,
+                                     ListCreateAPIView,
+                                     CreateAPIView)
 from .models import Item, Category, Order, OrderItem
 from rest_framework.permissions import IsAuthenticated
 from .serializers import (ItemSerializer,
@@ -22,7 +24,7 @@ class CategoryList(ListAPIView):
 
 class OrderItemCreate(CreateAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = OrderItem
+    queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
 
 

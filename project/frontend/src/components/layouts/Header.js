@@ -15,20 +15,26 @@ class Header extends Component {
 
 		const authLinks = (
 			<Fragment>
-				 <span className="text-light">{user?user.username: ""}</span>
-			     <button className="btn btn-small btn-link text-light"
-			     		onClick ={this.props.logout}>
-			     	Logout <i className=""> </i>
-			     </button>
+				<li className="navbar-text text-light">
+					{ isAuthenticated? user.username.toUpperCase() : ''} |
+				</li>
+				 <li className="nav-item">	
+				     <button className="btn btn-small btn-link text-light"
+				     		onClick ={this.props.logout}>
+				     	 Logout <i className="fas fa-sign-out-alt"> </i>
+				     </button>
+			      </li>
 		     </Fragment>
 		   
 		);
 
 		const guestLinks = (
 			<Link className="nav-link" to="/login">
-		        <button className="btn btn-small btn-link text-light">
-		        	Login <i className=""> </i>
-		        </button>
+		        <li className="nav-item">	
+					 <button className="btn btn-small btn-link text-light">
+				        	Login <i className=""> </i>
+				      </button>
+			      </li>
 		     </Link>
 		);
 
@@ -40,9 +46,7 @@ class Header extends Component {
 
 				  {/*<!-- Navbar links -->*/}
 				  	<ul className="navbar-nav ml-auto">
-				      <li className="nav-item">	
 						   { isAuthenticated? authLinks: guestLinks }
-				       </li>
 				    </ul>
 				</div>
 			</nav> 

@@ -17,10 +17,10 @@ function Dashboard() {
 						<h3>KITCHEN</h3> 
 					</Link>
 
-					<a className="btn btn-info p-5 m-2" href="/admin"> 
+					<Link className="btn btn-info p-5 m-2" to="/admin"> 
 						<i className="fas fa-key fa-4x"></i><br /><br />
 						<h3>ADMIN</h3> 
-					</a>
+					</Link>
 				</div>
 			</div>
 		</div>

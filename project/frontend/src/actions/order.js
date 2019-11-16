@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { CREATE_ORDER, CLEAR_CART } from './types';
 import { createMessage } from './messages';
+import createHeader from './createHeader';
 
 // CREATE ORDER
 export const createOrder = (order, orderitems) => (dispatch, getState) => {
@@ -33,18 +34,3 @@ export const createOrder = (order, orderitems) => (dispatch, getState) => {
 }
 
 
-const createHeader = token => {
-	// set headers
-	const config = {
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	}
-
-	// if token, add headers to config
-	if(token) {
-		config.headers['Authorization'] = `Token ${token}`;
-	}
-
-	return config;
-}

@@ -7,19 +7,7 @@ import ItemBox from './ItemBox';
 import CategoryBox from './CategoryBox';
 import OrderSummary from './OrderSummary';
 import Loader from '../layouts/Loader';
-import ERROR_404 from '../layouts/ERROR_404';
 function Items(props) {
-
-	const propTypes = {
-		loading: PropTypes.bool.isRequired,
-		items: PropTypes.array.isRequired,
-		categories: PropTypes.array.isRequired,
-		getItems: PropTypes.func.isRequired,
-		addInCart: PropTypes.func.isRequired,
-		filterItemsByCategory: PropTypes.func.isRequired,
-		error: PropTypes.object.isRequired,
-		isAuthenticated: PropTypes.bool
-	}
 
 	useEffect ( ()=> {
 		props.getItems();
@@ -98,6 +86,16 @@ function Items(props) {
 		</Fragment>
 	);
 }
+
+Items.propTypes = {
+	loading: PropTypes.bool.isRequired,
+	items: PropTypes.array.isRequired,
+	categories: PropTypes.array.isRequired,
+	getItems: PropTypes.func.isRequired,
+	addInCart: PropTypes.func.isRequired,
+	filterItemsByCategory: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool
+};
 
 const mapStateToProps = state => ({
 	items: state.items.filtered_items,

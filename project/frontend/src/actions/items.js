@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { GET_ITEMS, GET_ERRORS, FILTER_BY_CATEGORY } from './types';
 import { createMessage } from './messages';
-
-
+import createHeader from './createHeader';
 
 export const getItems = () => (dispatch, getState) => {
 
@@ -46,22 +45,5 @@ export const filterItemsByCategory = category_id => dispatch => {
 		type: FILTER_BY_CATEGORY,
 		payload: category_id
 	})
-}
-
-
-const createHeader = token => {
-	// set headers
-	const config = {
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	}
-
-	// if token, add headers to config
-	if(token) {
-		config.headers['Authorization'] = `Token ${token}`;
-	}
-
-	return config;
 }
 
