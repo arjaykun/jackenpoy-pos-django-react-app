@@ -18,6 +18,9 @@ export class Alerts extends Component {
 			if(message.userAdded) alert.success(message.userAdded);
 			if(message.userDeleted) alert.success(message.userDeleted);
 			if(message.userUpdated) alert.success(message.userUpdated);
+			if(message.itemAdded) alert.success(message.itemAdded);
+			if(message.itemDeleted) alert.success(message.itemDeleted);
+			if(message.orderCompleted) alert.success(message.orderCompleted);
 		}
 	}
 

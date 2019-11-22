@@ -1,10 +1,9 @@
-import { GET_USERS, CREATE_USER, LOADING,UNLOADING, 
+import { GET_USERS, CREATE_USER, U_LOADING, 
 	DELETE_USER, UPDATE_USER, GET_USER } from "../actions/types"
 
 const initialState = {
 	users: [],
 	loading: false,
-	created: false,
 	selectedUser: {},
 }
 
@@ -20,24 +19,17 @@ export default function(state=initialState, action) {
 			return {
 				...state,
 				selectedUser: action.payload,
-				loading: false
 			} 
-		case LOADING: 
+		case U_LOADING: 
 			return {
 				...state,
 				loading: true
-			}
-		case UNLOADING: 
-			return {
-				...state,
-				loading: false,
-			}
+			}	
 		case CREATE_USER:
 			return {
 				...state,
 				users: [...state.users, action.payload],
 				loading: false,
-				created: true,
 			}	
 		case UPDATE_USER:
 			return {
@@ -48,7 +40,6 @@ export default function(state=initialState, action) {
 					return u
 				}),
 				loading: false,
-				created: true,
 			}
 		case DELETE_USER:
 			return {

@@ -50,7 +50,9 @@ function Items(props) {
 					 		<div className="d-flex justify-content-center">
 					 		{
 						 		props.items.length > 0 ?
-							 		props.items.map( item => (
+							 		props.items
+							 			.filter(item => item.status === true)
+							 			.map( item => (
 							 			<ItemBox 
 								 			item={item} 
 								 			key={item.id} 

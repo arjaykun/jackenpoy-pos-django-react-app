@@ -14,7 +14,7 @@ function Dashboard() {
 					</Link>
 					<Link className="btn btn-danger p-5 m-2" to="/kitchen">
 						<i className="fas fa-utensils fa-4x"></i> <br /><br />
-						<h3>KITCHEN</h3> 
+						<h3>ORDERS</h3> 
 					</Link>
 
 					<Link className="btn btn-info p-5 m-2" to="/admin"> 

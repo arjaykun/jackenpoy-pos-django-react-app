@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { GET_ITEMS, GET_ERRORS, FILTER_BY_CATEGORY } from './types';
-import { createMessage } from './messages';
+import { GET_ITEMS, FILTER_BY_CATEGORY, 
+	CREATE_ITEM, ITEM_LOADING, UPDATE_ITEM, DELETE_ITEM } from './types';
+import { createMessage, createError } from './messages';
 import createHeader from './createHeader';
 
 export const getItems = () => (dispatch, getState) => {
@@ -26,17 +27,72 @@ export const getItems = () => (dispatch, getState) => {
 			})
 	 	})
 		.catch(err => {
-			dispatch({
-					type: GET_ERRORS,
-					payload: {
-						msg: err.response.data.detail,
-						status: err.response.status,
-						statusText: err.response.statusText
-					}
-				})
+			dispatch(createError(err.response))
 		})
 }
 
+
+//create new item
+export const createItem = item => (dispatch, getState) => {
+	// create header
+	const config = createHeader(getState().auth.token);
+
+	console.log('creating item')
+	dispatch({type:ITEM_LOADING});
+	axios.post('api/items/', item, config )
+		.then( res=> {
+			dispatch(createMessage({itemAdded:"An item is added successfully."}))
+			dispatch({
+				type: CREATE_ITEM,
+				payload: res.data,
+			})
+		})
+		.catch( err => {
+			console.log(err);
+		})
+}
+
+//updating item
+export const updateItem = item => (dispatch, getState) => {
+	// create header
+	const config = createHeader(getState().auth.token);
+
+	console.log('updating item')
+	dispatch({type:ITEM_LOADING});
+	axios.put(`api/items/${item.id}`, item,  config )
+		.then( res=> {
+			dispatch(createMessage({itemUpdated:"An item is updated successfully."}))
+			dispatch({
+				type: UPDATE_ITEM,
+				payload: item,
+			})
+		})
+		.catch( err => {
+			console.log(err);
+		})
+}
+
+
+
+//deleting item
+export const deleteItem = item => (dispatch, getState) => {
+	// create header
+	const config = createHeader(getState().auth.token);
+
+	console.log('deleting item')
+	dispatch({type:ITEM_LOADING});
+	axios.delete(`api/items/${item}`, config )
+		.then( res=> {
+			dispatch(createMessage({itemDeleted:"An item is deleted successfully."}))
+			dispatch({
+				type: DELETE_ITEM,
+				payload: item,
+			})
+		})
+		.catch( err => {
+			console.log(err);
+		})
+}
 
 //filtering all items by its category
 export const filterItemsByCategory = category_id => dispatch => {

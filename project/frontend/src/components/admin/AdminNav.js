@@ -20,10 +20,12 @@ function AdminDashboard(props) {
 			    ${option==="users"? "active":""}`} to="/admin/users">Users</Link>
 			  </li>
 			  <li className="nav-item">
-			    <Link className="nav-link text-secondary" to="/admin/orders">Orders</Link>
+			    <Link className={`nav-link text-secondary
+			    ${option==="orders"? "active":""}`} to="/admin/orders">Orders</Link>
 			  </li>
 			  <li className="nav-item">
-			    <Link className="nav-link text-secondary" to="/admin/saes">Sales</Link>
+			    <Link className={`nav-link text-secondary
+			    ${option==="sales"? "active":""}`} to="/admin/sales">Sales</Link>
 			  </li>
 			</ul>
 		</Fragment>

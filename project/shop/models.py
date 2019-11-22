@@ -40,6 +40,7 @@ class Order(models.Model):
     discounted_price = models.FloatField()
     ordered_date = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(default=False)
+    or_number = models.CharField(max_length=20)
 
     def __str__(self):
         return f"Order worth {self.total_price} completed by {self.user.username}"

@@ -8,6 +8,8 @@ import Alerts from "./layouts/Alerts";
 import Menu from "./admin/Menu";
 import AdminDashboard from "./admin/AdminDashboard";
 import Users from "./admin/Users";
+import Orders from "./admin/Orders";
+import Sales from "./admin/Sales";
 import Dashboard from "./Dashboard";
 import Items from "./shop/Items";
 import Login from "./accounts/Login";
@@ -46,8 +48,8 @@ class App extends Component {
 									<PrivateRoute exact path="/admin" component={AdminDashboard} />
 									<PrivateRoute exact path="/admin/users" component={Users} />
 									<PrivateRoute exact path="/admin/menu" component={Menu} />
-									<PrivateRoute exact path="/admin/orders" component={AdminDashboard} />
-									<PrivateRoute exact path="/admin/sales" component={AdminDashboard} />
+									<PrivateRoute exact path="/admin/orders" component={Orders} />
+									<PrivateRoute exact path="/admin/sales" component={Sales} />
 									<Route exact path="/login" component={Login} />
 								</Switch>
 						</Fragment>

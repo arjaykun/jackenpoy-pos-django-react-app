@@ -15,7 +15,7 @@ function UpdateForm(props) {
 
 	useEffect( () => {
 		props.close()
-	}, [props.created])
+	}, [props.loading])
 
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -41,7 +41,9 @@ function UpdateForm(props) {
 	  	{ inputError !== '' ? 
 			<div className="alert alert-danger text-center">{inputError}</div>:			
 			error? 
+				error.username?
 				<div className="alert alert-danger text-center">{error.username.join()}</div>:			
+				<span></span>:
 			<span></span>
 		}
 	 	<form onSubmit={handleSubmit}>
@@ -100,12 +102,10 @@ function UpdateForm(props) {
 UpdateForm.propTypes = {
 	loading: PropTypes.bool.isRequired,
 	updateUser: PropTypes.func.isRequired,
-	created: PropTypes.bool.isRequired,
 }
 
 const mapToStateToProps = state => ({
 	loading: state.users.loading,
-	created: state.users.created,
 	error: state.errors.msg
 })
 

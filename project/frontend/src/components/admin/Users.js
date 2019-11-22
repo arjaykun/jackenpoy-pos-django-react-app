@@ -6,7 +6,6 @@ import UpdateForm from './UpdateForm';
 import ConfirmForm from './ConfirmForm';
 import PropTypes from 'prop-types';
 import Rodal from 'rodal';
-import {getUsers} from '../../actions/users'
 
 function Users(props) {
 	const users = props.users;
@@ -14,9 +13,7 @@ function Users(props) {
 	const [update, setUpdate] = useState(false);
 	const [confirm, setConfirm] = useState(false);
 	const [choice, setChoice] = useState({});
-	useEffect( ()=> {
-		props.getUsers();
-	}, []);
+
 
 	const handleUpdate = user => {
 		setChoice(user);
@@ -113,11 +110,15 @@ function Users(props) {
 		 	visible={confirm} 
 		 	onClose={ () => setConfirm(false)}
 		 	closeOnEsc={true}
-		 	width={450}
-		 	height={180}
+		 	width={500}
+		 	height={150}
 		 	animation="flip"
 		 	>
-		 	<ConfirmForm user={choice.id} close={() => setConfirm(false)}/>
+		 	<ConfirmForm
+	 			text="Are you sure you want to delete this user?"
+	 			id={choice.id}
+	 			title="users" 
+	 			close={() => setConfirm(false)} />
 		 </Rodal>
 
 	  </div>
@@ -126,11 +127,10 @@ function Users(props) {
 
 Users.propTypes = {
 	users: PropTypes.array.isRequired,
-	getUsers: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
 	users: state.users.users
 });
 
-export default connect(mapStateToProps, {getUsers})(Users);
+export default connect(mapStateToProps)(Users);

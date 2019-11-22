@@ -36,18 +36,13 @@ class UserAPI(generics.RetrieveAPIView):
 class UserListAPI(generics.ListCreateAPIView):
     serializer_class = CreateUserSerializer
     permission_classes = [permissions.AllowAny, ]
-    queryset = User.objects.filter(is_active=True)
+    queryset = User.objects.all()
 
 
 class UserRetrieveUpdateDeleteAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RetrieveModifyUserSerializer
     permission_classes = [permissions.IsAuthenticated, ]
     queryset = User.objects.all()
-
-    def destroy(self, *args, **kwargs):
-        serializer = self.get_serializer(self.get_object())
-        super().destroy(*args, **kwargs)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ChangePasswordAPI(LoginRequiredMixin, generics.UpdateAPIView):

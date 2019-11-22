@@ -1,28 +1,43 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {deleteUser} from '../../actions/users';
+import {deleteItem} from '../../actions/items';
+import {completeOrder, deleteOrder} from '../../actions/order';
 import PropTypes from 'prop-types';
 
 function ConfirmForm(props) {
 	const handleClick = () => {
-		props.deleteUser(props.user);
+		switch(props.title) {
+			case 'users':
+				props.deleteUser(props.id);
+				break;
+			case 'items':
+				props.deleteItem(props.id);
+				break;
+			case 'orders':
+				props.completeOrder(props.id);
+				break;
+			case 'd_orders':
+				props.deleteOrder(props.id);
+				break;
+		}
 		props.close();
 	}
 	return (
 		<Fragment>
-			<h4 className="text-center">
-				Are you sure you want to delete the selected user?
-			</h4>
+			<h5 className="text-center mt-2">
+				{props.text}
+			</h5>
 			<hr />
 			<div className="modal-body d-flex justify-content-center">
 		         	<button 
 		         		className="btn btn-primary mx-1"
 		         		onClick={ () => handleClick() }
-		         	>YES</button>
+		         	>Confirm</button>
 		         	<button 
 		         		className="btn btn-danger mx-1"
 		         		onClick={ () => props.close()}
-		         	>NO</button>
+		         	>Cancel</button>
 		        </div>
 		        
 		</Fragment>
@@ -30,11 +45,15 @@ function ConfirmForm(props) {
 }
 
 ConfirmForm.propTypes = {
-	deleteUser: PropTypes.func.isRequired
+	deleteUser: PropTypes.func.isRequired,
+	deleteItem: PropTypes.func.isRequired,
+	completeOrder: PropTypes.func.isRequired,
+	deleteOrder: PropTypes.func.isRequired,
 }
 
 const mapToStateToProps = state => ({
 	error: state.errors
 })
 
-export default connect(mapToStateToProps, {deleteUser})(ConfirmForm);
+export default connect(mapToStateToProps, 
+	{deleteUser, deleteItem, completeOrder, deleteOrder})(ConfirmForm);

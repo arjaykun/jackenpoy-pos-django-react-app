@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { USER_LOADING, GET_USERS, CREATE_USER, UNLOADING,
-	LOADING, DELETE_USER, UPDATE_USER, GET_USER} from './types';
+import { USER_LOADING, GET_USERS, CREATE_USER, DELETE_USER, UPDATE_USER, GET_USER, U_LOADING} from './types';
 import { createMessage, createError, clearError } from './messages';
 import createHeader from './createHeader';
 
@@ -11,7 +10,6 @@ export const getUsers = () => (dispatch, getState) => {
 	const config = createHeader(getState().auth.token);
 	console.log('getting users');
 	// create user data
-	dispatch({type:LOADING});
 	axios.get('api/users', config)
 		.then(res => {
 			dispatch({
@@ -30,8 +28,7 @@ export const getUser = user => (dispatch, getState) => {
 	// create header
 	const config = createHeader(getState().auth.token);
 	console.log('getting single user');
-	// create user data
-	dispatch({type:LOADING});
+	
 	axios.get(`api/users/${user}`, config)
 		.then(res => {
 			dispatch({
@@ -49,7 +46,7 @@ export const createUser = user => (dispatch, getState) => {
 	// create header
 	const config = createHeader(getState().auth.token);
 
-	dispatch({type:LOADING});
+	dispatch({type:U_LOADING});
 	axios.post('api/users', user, config)
 		.then(res => {
 			dispatch(createMessage({userAdded:'A user is created successfully.'}));				
@@ -70,7 +67,7 @@ export const updateUser = (user, id) => (dispatch, getState) => {
 	console.log('updating user');
 	// create header
 	const config = createHeader(getState().auth.token);
-	dispatch({type:LOADING});
+	dispatch({type:U_LOADING});
 	
 	axios.put(`api/users/${id}`, user, config)
 		.then(res => {
@@ -92,7 +89,7 @@ export const deleteUser = user => (dispatch, getState) => {
 	// create header
 	const config = createHeader(getState().auth.token);
 	// create user data
-	dispatch({type:LOADING});
+	dispatch({type:U_});
 	axios.delete(`api/users/${user}`, config)
 		.then(res => {
 			dispatch(createMessage({userDeleted:'A user is deleted successfully.'}));				
