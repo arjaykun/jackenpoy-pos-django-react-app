@@ -12,6 +12,7 @@ import Orders from "./admin/Orders";
 import Sales from "./admin/Sales";
 import Dashboard from "./Dashboard";
 import Items from "./shop/Items";
+import OrderView from "./kitchen/OrderView";
 import Login from "./accounts/Login";
 import PrivateRoute from "./common/PrivateRoute";
 
@@ -45,6 +46,7 @@ class App extends Component {
 								<Switch>
 									<PrivateRoute exact path="/" component={Dashboard} />
 									<PrivateRoute exact path="/shop" component={Items} />
+									<PrivateRoute exact path="/orders" component={OrderView} />
 									<PrivateRoute exact path="/admin" component={AdminDashboard} />
 									<PrivateRoute exact path="/admin/users" component={Users} />
 									<PrivateRoute exact path="/admin/menu" component={Menu} />

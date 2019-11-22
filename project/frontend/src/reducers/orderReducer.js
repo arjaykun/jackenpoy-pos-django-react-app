@@ -1,4 +1,4 @@
-import { CREATE_ORDER, GET_ORDERS, ORDER_LOADING,
+import { CREATE_ORDER, GET_ORDERS, ORDER_LOADING, GET_ACTIVE_ORDERS,
  COMPLETE_ORDER, UPDATE_ORDER, ORDER_DELETE, VIEW_ORDER_ITEMS } from '../actions/types.js';
 
 const initialState = {
@@ -20,6 +20,7 @@ export default function(state=initialState, action) {
 			return {
 				...state, 
 				loading: false,
+				orders: [...state.orders, action.payload],
 			}
 		case GET_ORDERS:
 			return {
@@ -27,6 +28,14 @@ export default function(state=initialState, action) {
 				orders: action.payload,
 				loading: false,
 			}	
+		case GET_ACTIVE_ORDERS:
+			return {
+				...state,
+				orders: action.payload.filter( order => {
+					return order.is_completed === false
+				}),
+				loading: false,
+			}
 		case COMPLETE_ORDER:
 			return {
 				...state,

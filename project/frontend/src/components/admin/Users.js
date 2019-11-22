@@ -79,7 +79,7 @@ function Users(props) {
 								className="btn text-light bg-danger rounded-circle mr-1"
 								onClick={() => handleDelete(user)}
 							>
-								<i className="fas fa-times "></i>
+								<i className="fas fa-trash "></i>
 							</button>
 	  						<button className="btn text-light bg-info rounded-circle mr-1" 
 							 		onClick={()=> handleUpdate(user)}>

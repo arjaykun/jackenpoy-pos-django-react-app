@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
+
 
 function Dashboard() {
 	return (
@@ -12,7 +13,7 @@ function Dashboard() {
 						<i className="fas fa-cash-register fa-4x"></i> <br /><br />
 						<h3>CASHIER</h3> 
 					</Link>
-					<Link className="btn btn-danger p-5 m-2" to="/kitchen">
+					<Link className="btn btn-danger p-5 m-2" to="/orders">
 						<i className="fas fa-utensils fa-4x"></i> <br /><br />
 						<h3>ORDERS</h3> 
 					</Link>

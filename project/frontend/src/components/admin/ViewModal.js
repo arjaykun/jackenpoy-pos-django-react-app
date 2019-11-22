@@ -34,6 +34,7 @@ function ViewModal(props) {
 				</tbody>
 			</table>
 			<div className="text-right bg-secondary p-3">
+			<h3>Discounted: <strong>&#8369;{order.discounted_price}</strong> </h3>
 			<h3>Total: <strong>&#8369;{order.total_price}</strong> </h3>
 		</div>
 		</Fragment>

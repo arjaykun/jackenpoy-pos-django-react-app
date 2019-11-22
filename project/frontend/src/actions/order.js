@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CREATE_ORDER, CLEAR_CART, GET_ORDERS, 
-	ORDER_LOADING, COMPLETE_ORDER,
+	ORDER_LOADING, COMPLETE_ORDER, GET_ACTIVE_ORDERS,
 	ORDER_DELETE, VIEW_ORDER_ITEMS} from './types';
 import { createMessage } from './messages';
 import createHeader from './createHeader';
@@ -27,13 +27,14 @@ export const createOrder = (order, orderitems) => (dispatch, getState) => {
 						order:res.data.id,
 					}, config)
 					.then( () => {
-						dispatch(createMessage({orderSucess:'An order is completed successfully.'}));
 						dispatch({
 							type: CLEAR_CART
 						})
 					})
 					.catch( error => console.log(error));
 			})
+			dispatch(createMessage({orderSucess:'An order is completed successfully.'}));						
+			dispatch({type:CREATE_ORDER, payload:res.data})
 		})
 		.catch( error => console.log(error));	
 }
@@ -58,6 +59,26 @@ export const getOrders = () => (dispatch, getState) => {
 			dispatch(createError(err.response));
 		})
 }
+
+export const getActiveOrders = () => (dispatch, getState) => {
+
+	// create header
+	const config = createHeader(getState().auth.token);
+	console.log('getting orders');
+	// create user data
+	dispatch({type:ORDER_LOADING})
+	axios.get('api/orders', config)
+		.then(res => {
+			dispatch({
+				type: GET_ACTIVE_ORDERS,
+				payload: res.data	
+			})
+		})	
+		.catch(err => {
+			dispatch(createError(err.response));
+		})
+}
+
 
 //FETCH ALL SELECTED ORDER ITEMS
 

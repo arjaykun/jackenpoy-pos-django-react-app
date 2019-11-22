@@ -8,7 +8,7 @@ export const getItems = () => (dispatch, getState) => {
 
 	// create header
 	const config = createHeader(getState().auth.token);
-
+	dispatch({type:ITEM_LOADING});
 	console.log('getting items');
 	 axios.get('api/items/',config)
 	 	.then(res => {
