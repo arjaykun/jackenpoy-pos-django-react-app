@@ -10,7 +10,8 @@
 from django.urls import path
 from .views import (ItemList, CategoryList,
                     OrderListCreate, OrderItemCreate, ItemRetrieveUpdate,
-                    OrderUpdate, CategoryCreate, CategoryUpdate)
+                    OrderUpdate, CategoryCreate, CategoryUpdate, DailySales,
+                    MonthlySales, YearlySales)
 
 app_name = "shop"
 
@@ -24,4 +25,7 @@ urlpatterns = [
     path('orders/', OrderListCreate.as_view(), name="order-list-create"),
     path('orders/<int:pk>', OrderUpdate.as_view()),
     path('orderitems/', OrderItemCreate.as_view(), name="orderitem-create"),
+    path('dsales/', DailySales.as_view()),
+    path('msales/', MonthlySales.as_view()),
+    path('ysales/', YearlySales.as_view()),
 ]

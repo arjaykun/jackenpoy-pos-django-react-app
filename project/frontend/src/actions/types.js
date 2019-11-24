@@ -35,6 +35,9 @@ export const ORDER_DELETE = 'ORDER_DELETE';
 export const VIEW_ORDER_ITEMS= 'VIEW_ORDER_ITEMS';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 
+//sales
+export const GET_SALES = 'GET_SALES';
+export const SALES_LOADING = 'SALES_LOADING';
 
 //auth
 export const USER_LOADING = 'USER_LOADING';
@@ -44,7 +47,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
-//uers
+//users
 export const U_LOADING = 'U_LOADING';
 export const GET_USERS = 'GET_USERS';
 export const GET_USER = 'GET_USER';
