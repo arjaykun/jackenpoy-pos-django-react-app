@@ -3,10 +3,16 @@ import {  connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AdminNav from './AdminNav';
 import AddCategoryForm from './AddCategoryForm';
+import ConfirmForm from './ConfirmForm';
+import UpdateCategoryForm from './UpdateCategoryForm';
 import Rodal from 'rodal';
 
 function Categories(props) {
 	const [addModal, setAddModal] = useState(false);
+	const [selected, setSelected] = useState({category:"asdsa", color:"P"});
+	const [confirmModal, setConfirmModal] = useState(false);
+	const [updateModal, setUpdateModal] = useState(false);
+
 	const categories = props.categories
 	const color = {
 		P: 'primary',
@@ -27,6 +33,15 @@ function Categories(props) {
 		DK: 'Black',
 		DR: 'Red',
 	};
+
+	const handleDelete = cat => {
+		setSelected(cat)
+		setConfirmModal(true)
+	}
+	const handleUpdate = cat => {
+		setSelected(cat)
+		setUpdateModal(true)
+	}
 	return(
 		<Fragment>
 			{
@@ -63,12 +78,13 @@ function Categories(props) {
 									<td>	
 				  						<button 
 											className="btn text-light bg-danger rounded-circle mr-1"
-											
+												onClick={() => handleDelete(cat)}
 										>
 											<i className="fas fa-trash "></i>
 										</button>
 				  						<button className="btn text-light bg-info rounded-circle mr-1" 
-										 		>
+										 		onClick={() => handleUpdate(cat)}		
+										 >
 										 	<i className="fas fa-pen"></i>
 										 </button>
 	  								</td>
@@ -91,6 +107,36 @@ function Categories(props) {
 			 	leaveAnimation="door"
 			 	>
 			 		<AddCategoryForm close={() => setAddModal(false)}/>
+			 </Rodal>
+			{/*update modal form*/}
+			 <Rodal 
+			 	visible={updateModal} 
+			 	onClose={ () => setUpdateModal(false)}
+			 	closeOnEsc={true}
+			 	width={500}
+			 	height={420}
+			 	animation="flip"
+			 	leaveAnimation="door"
+			 	>
+			 		<UpdateCategoryForm 
+				 		item={selected}
+				 		close={() => setUpdateModal(false)}/>
+			 </Rodal>
+			{/*delete confirmation form*/}
+			 <Rodal 
+			 	visible={confirmModal} 
+			 	onClose={ () => setConfirmModal(false)}
+			 	closeOnEsc={true}
+			 	width={500}
+			 	height={150}
+			 	animation="flip"
+			 	leaveAnimation="door"
+			 	>
+			 		<ConfirmForm
+			 			text={`Are you sure you want to delete ${selected.category.toLowerCase()}?`}
+			 			id={selected.id}
+			 			title="categories" 
+			 			close={() => setConfirmModal(false)}/>
 			 </Rodal>
 		</Fragment>
 	)

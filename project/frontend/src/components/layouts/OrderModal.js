@@ -12,12 +12,6 @@ var hideModal = () => {
 
 function OrderModal(props) {
 
-	const propTypes = {
-		cart: PropTypes.object.isRequired,
-		order: PropTypes.object.isRequired,
-		createOrder: PropTypes.func.isRequired,
-	}
-
 	const cart = props.cart;
 	const order = props.order;
 	const [payment, setPayment] = useState(0);
@@ -46,7 +40,7 @@ function OrderModal(props) {
 
 		hideModal();
 		props.createOrder(
-			{ 'user': 6, 'total_price': cart.total, 'discounted_price': cart.discounted}, 
+			{ 'user': props.user.id, 'total_price': cart.total, 'discounted_price': cart.discounted}, 
 			cart.items
 		)
 	}
@@ -115,9 +109,17 @@ function OrderModal(props) {
 	)
 }
 
+OrderModal.propTypes = {
+	cart: PropTypes.object.isRequired,
+	order: PropTypes.object.isRequired,
+	createOrder: PropTypes.func.isRequired,
+	user: PropTypes.object.isRequired,
+}
+
 const mapStateToProps = state => ({
 	cart: state.cart,
 	order: state.order,
+	user: state.auth.user,
 });
 
 

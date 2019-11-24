@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {deleteUser} from '../../actions/users';
 import {deleteItem} from '../../actions/items';
 import {completeOrder, deleteOrder} from '../../actions/order';
+import {deleteCategory} from '../../actions/categories';
 import PropTypes from 'prop-types';
 
 function ConfirmForm(props) {
@@ -19,6 +20,9 @@ function ConfirmForm(props) {
 				break;
 			case 'd_orders':
 				props.deleteOrder(props.id);
+				break;
+			case 'categories':
+				props.deleteCategory(props.id);
 				break;
 		}
 		props.close();
@@ -49,6 +53,7 @@ ConfirmForm.propTypes = {
 	deleteItem: PropTypes.func.isRequired,
 	completeOrder: PropTypes.func.isRequired,
 	deleteOrder: PropTypes.func.isRequired,
+	deleteCategory: PropTypes.func.isRequired,
 }
 
 const mapToStateToProps = state => ({
@@ -56,4 +61,4 @@ const mapToStateToProps = state => ({
 })
 
 export default connect(mapToStateToProps, 
-	{deleteUser, deleteItem, completeOrder, deleteOrder})(ConfirmForm);
+	{deleteUser, deleteItem, completeOrder, deleteOrder, deleteCategory})(ConfirmForm);

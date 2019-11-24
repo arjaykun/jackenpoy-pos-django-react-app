@@ -22,6 +22,7 @@ export class Alerts extends Component {
 			if(message.itemDeleted) alert.success(message.itemDeleted);
 			if(message.orderCompleted) alert.success(message.orderCompleted);
 			if(message.categoryAdded) alert.success(message.categoryAdded);
+			if(message.categoryDeleted) alert.success(message.categoryDeleted);
 		}
 	}
 

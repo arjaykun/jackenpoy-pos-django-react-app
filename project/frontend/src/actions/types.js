@@ -10,6 +10,8 @@ export const ITEM_LOADING = 'ITEM_LOADING';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const CREATE_CATEGORY = 'CREATE_CATEGORY';
 export const CATEGORY_LOADING = 'CATEGORY_LOADING';
+export const DELETE_CATEGORY = 'DELETE_CATEGORY';
+export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 
 //cart
 export const GET_CART = 'GET_CART';

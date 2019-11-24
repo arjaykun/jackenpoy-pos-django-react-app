@@ -41,7 +41,7 @@ function UpdateItemForm(props) {
 	return (
 		<Fragment>
 
-		<h4> Update Item ({item.name})
+		<h4> Update Item ({props.item.name})
 			{ props.loading ? 
 				<span><i className="fas fa-spinner fa-pulse"> </i></span>
 				:<span></span>} 
