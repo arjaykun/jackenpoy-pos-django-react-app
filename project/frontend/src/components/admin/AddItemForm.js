@@ -20,7 +20,7 @@ function AddItemForm(props) {
 	
 	const handleSubmit = e => {
 		e.preventDefault();
-		if(!/^[0-9]+$/.test(item.price)){
+		if(!/^[0-9.]+$/.test(item.price)){
 			setInputError('Invalid Characters on Price.');
 			return;	
 		}

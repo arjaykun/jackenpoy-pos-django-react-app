@@ -11,6 +11,7 @@ function ItemBox(props) {
 		P: 'primary',
 		I: 'info',
 		W: 'warning',
+		SE: 'secondary',
 		S: 'success',
 		DK: 'dark',
 		DR: 'danger',

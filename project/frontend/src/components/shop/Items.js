@@ -34,7 +34,7 @@ function Items(props) {
 				<div className="col-md-6 p-1">
 					<div className="card p-2 d-flex flex-column">
 					{/*Category items*/}
-						<div className="d-flex border-bottom pb-2 mb-2">
+						<div className="d-flex border-bottom flex-wrap pb-2 mb-2">
 							{	
 								props.categories.map(cat => (
 									<CategoryBox 

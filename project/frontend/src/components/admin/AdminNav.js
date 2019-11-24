@@ -15,6 +15,10 @@ function AdminDashboard(props) {
 			    <Link className={`nav-link text-secondary
 			    	${option==="menu"? "active":""}`} to="/admin/menu">Menu</Link>
 			  </li>
+			  <li className="nav-item ">
+			    <Link className={`nav-link text-secondary
+			    	${option==="categories"? "active":""}`} to="/admin/categories">Categories</Link>
+			  </li>
 			  <li className="nav-item">
 			    <Link className={`nav-link text-secondary
 			    ${option==="users"? "active":""}`} to="/admin/users">Users</Link>

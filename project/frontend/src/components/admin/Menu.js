@@ -41,7 +41,7 @@ function Menu(props) {
 		        <th>Item</th>
 		        <th>Price</th>
 		        <th>Status</th>
-		        <th></th>
+		        <th>Actions</th>
 		      </tr>
 		    </thead>
 		    <tbody>

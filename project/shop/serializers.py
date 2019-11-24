@@ -17,6 +17,13 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ["id", "category", "items", 'color']
 
 
+class CategorySerializer2(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = "__all__"
+
+
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem

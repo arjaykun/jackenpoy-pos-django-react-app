@@ -58,7 +58,7 @@ function Orders(props) {
 					        <th>Date</th>
 					        <th>Time</th>
 					        <th>Status</th>
-					        <th></th>
+					        <th>Actions</th>
 					      </tr>
 					    </thead>
 					    <tbody>

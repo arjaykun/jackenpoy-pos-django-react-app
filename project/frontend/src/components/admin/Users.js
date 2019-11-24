@@ -55,7 +55,7 @@ function Users(props) {
 		        <th>Email</th>
 		        <th>Staff Status</th>
 		        <th>Password</th>
-		        <th></th>
+		        <th>Actions</th>
 		      </tr>
 		    </thead>
 		    <tbody>

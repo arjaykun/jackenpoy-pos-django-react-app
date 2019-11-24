@@ -7,6 +7,7 @@ from .models import Item, Category, Order, OrderItem
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import (ItemSerializer,
                           CategorySerializer,
+                          CategorySerializer2,
                           OrderSerializer,
                           OrderItemSerializer
                           )
@@ -33,7 +34,13 @@ class CategoryList(ListAPIView):
 class CategoryCreate(CreateAPIView):
     permission_classes = [AllowAny]
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    serializer_class = CategorySerializer2
+
+
+class CategoryUpdate(RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer2
 
 
 class OrderItemCreate(ListCreateAPIView):

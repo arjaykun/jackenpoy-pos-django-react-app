@@ -21,12 +21,12 @@ function CategoryBox(props) {
 
 	return (
 		<div
-			className={`mr-1 text-light bg-${color[category.color]} 
+			className={`mr-1 mb-1 text-light bg-${color[category.color]} 
 			text-center d-flex flex-column justify-content-center`}
 			onClick={props.onClick}
 			style={styles}
 		>
-			<div>{category.category}</div>
+			<div>{category.category.toUpperCase()}</div>
 		</div>
 	)
 }
