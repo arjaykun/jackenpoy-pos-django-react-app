@@ -1,28 +1,45 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { login } from '../../actions/auth'
+import { login, resetAttempt } from '../../actions/auth'
 import PropTypes from 'prop-types';
 import Loader from '../layouts/Loader';
 
 function Login(props) {
-	const propTypes = {
-		login: PropTypes.func.isRequired,
-		isAuthenticated: PropTypes.bool,
-		error: PropTypes.object.isRequired,
-	}
 
 	const [ username, setUsername ] = useState('');
 	const [ password, setPassword ] = useState('');
 	const [ fieldError, setFieldError ] = useState('');
 	const onSubmit = e => {
 		e.preventDefault()
-		if(username !== '' && password !== '') {
-			props.login(username, password);
-			setFieldError('');
+		let loginDate = new Date(localStorage.getItem('login_date'));
+		let now = new Date();
+
+		if(loginDate.getTime() > now.getTime()) {
+			setFieldError(`You have reached maximum attempt. Please come back after
+				${loginDate.getMinutes() - now.getMinutes()} minute(s).`)
+			setPassword('')
+			return;
 		}
-		else 
-			setFieldError('Both fields may not be blank.');
+
+		if( props.attempt <= 4 ) {
+			if(username !== '' && password !== '') {			
+				props.login(username, password);
+				setFieldError('');
+				if( props.attempt >= 3 ) {
+					setFieldError('You have reached maximum attempt to login.');
+					let now = new Date()
+					now.setMinutes(now.getMinutes() + 5) // add 5 minutes
+					now = new Date(now);
+					console.log('penalize')
+					localStorage.setItem('login_date', now);
+					props.resetAttempt();	
+				}
+			}
+			else 
+				setFieldError('Both fields may not be blank.');		
+		} 
+
 		//clear text input value
 		setPassword('')
 	}
@@ -67,7 +84,9 @@ function Login(props) {
 							<div className="text-danger text-center">{fieldError}</div>
 						:	
 							props.error.msg.non_field_errors?
-								<div className="text-danger text-center">{props.error.msg.non_field_errors.join()}</div>
+								<div className="text-danger text-center">{props.error.msg.non_field_errors.join()} 
+									Attempt {props.attempt}
+								</div>
 							:
 								<span></span>
 					:
@@ -80,10 +99,20 @@ function Login(props) {
 			 </div>
 	);
 }
+
+Login.propTypes = {
+	login: PropTypes.func.isRequired,
+	resetAttempt: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool,
+	error: PropTypes.object.isRequired,
+
+}
+
 const mapStateToProps = state => ({
 	isAuthenticated: state.auth.isAuthenticated, 
 	isLoading: state.auth.isLoading,
+	attempt: state.auth.attempt,
 	error: state.errors,
 })
 
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, {login, resetAttempt})(Login);

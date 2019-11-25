@@ -7,6 +7,10 @@ import AdminNav from './AdminNav';
 import { getItems } from '../../actions/items';
 import { getCategories } from '../../actions/categories';
 import {getSales} from '../../actions/sales';
+
+import SalePanels from './sales/SalePanels'
+import SaleCharts from './sales/SaleCharts'
+
 function AdminDashboard(props) {
 	const user = props.user;
 
@@ -23,52 +27,26 @@ function AdminDashboard(props) {
 				user.is_staff ?
 				<div className="container my-3 p-3 border">
 					<AdminNav option="home" />
-					 <div className="row mt-3 px-3">
-						 <div className="col-md-4 mb-1">
-							 <div className="box bg-primary">
-				                <h2 className="desc">
-					                &#8369;{!props.s_loading? 
-					                	props.daily.filter(s => new Date(s.date).getDate() === new Date().getDate())
-					                			   .reduce( (a,b) => (
-				     						a+ Number(b.sales)), 0)
-				                		: <div class="spinner-border text-light"></div>}
-				                </h2>
-				                <span className="title">Daily Sales</span>
-				                <i className="fas fa-ruble-sign"></i>
-				                <span className="info">More Info <span className="fas fa-arrow-circle-right"></span></span>
-		            		</div>
-						 </div>
 
-						 <div className="col-md-4 mb-1">
-							 <div className="box bg-danger">
-				                <h2 className="desc">
-				                	 &#8369;{!props.s_loading? 
-					                	props.daily.filter(s => new Date(s.date).getMonth() === new Date().getMonth())
-					                			   .reduce( (a,b) => (
-				     						a+ Number(b.sales)), 0)
-				                		: <div class="spinner-border text-light"></div>}
-				                </h2>
-				                <span className="title">Monthly Sales</span>
-				                <i className="fas fa-money-bill-alt"></i>
-				                <span className="info">More Info <span className="fas fa-arrow-circle-right"></span></span>
-		            		</div>
-						 </div>
+					 <hr />
+					 <h3 className="text-center my-1 bg-secondary text-light py-2">Sales Status</h3>
+					 <hr />
 
-						 <div className="col-md-4 mb-1">
-							 <div className="box bg-success">
-				                <h2 className="desc">
-				                	&#8369;{!props.s_loading? 
-					                	props.daily.filter(s => new Date(s.date).getYear() === new Date().getYear())
-					                			   .reduce( (a,b) => (
-				     						a+ Number(b.sales)), 0)
-				                		: <div class="spinner-border text-light"></div>}
-				                </h2>
-				                <span className="title">Annual Sales</span>
-				                <i className="fas fa-money-bill-wave"></i>
-				                <span className="info">More Info <span className="fas fa-arrow-circle-right"></span></span>
-		            		</div>
-						 </div>
-					 </div>
+					<SalePanels 
+						loading={props.s_loading} 
+						daily={props.daily} 
+						monthly={props.monthly} 
+						yearly={props.yearly}
+					 />
+
+					 <hr />
+					 <h3 className="text-center my-1 bg-secondary text-light py-2">Sales Charts</h3>
+					 <hr />
+
+					 <SaleCharts  
+					 	daily={props.daily} 
+						monthly={props.monthly} 
+					 />
 				</div>
 				 : 
 				 	<ERROR_404 />

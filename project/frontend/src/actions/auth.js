@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS } from './types';
+import { USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_FAIL,
+ LOGIN_SUCCESS, LOGOUT_SUCCESS, RESET_ATTEMPT } from './types';
 import { createMessage, createError } from './messages';
 import createHeader from './createHeader';
 
@@ -79,4 +80,10 @@ export const logout = () => (dispatch, getState) => {
 			dispatch(createError(err.response))
 		})
 }
+
+
+export const resetAttempt = () => dispatch  => {
+	dispatch({type:RESET_ATTEMPT})
+}
+
 

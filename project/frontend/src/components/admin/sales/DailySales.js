@@ -23,8 +23,13 @@ function DailySales(props) {
 			     			))
 			     		}
 			     		<tr>
-			     			<td colSpan="2" className="text-right">
+			     			<td className="text-right">
 			     				<strong>TOTAL</strong> 
+			     			</td>
+			     			<td>
+			     				{props.sales.reduce( (a,b) => (
+			     						a+ Number(b.count)
+			     				), 0)}
 			     			</td>
 			     			<td>
 			     				&#8369;{props.sales.reduce( (a,b) => (
