@@ -66,16 +66,19 @@ class LoginSerializer(serializers.Serializer):
 
 
 class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True, max_length=30)
+    model = User
+    password = serializers.CharField(
+        required=True, max_length=30, min_length=6)
+
+    # def update(self, instance, validated_data):
+    #     instance.set_password(validated_data['password'])
+    #     instance.save()
+
+    #     return instance
+
+
+class ChangePasswordSerializer2(serializers.Serializer):
+    model = User
+
     new_password = serializers.CharField(required=True, max_length=30)
-
-    def validate(self, data):
-        if not self.context['request'].user.check_password(data.get('old_password')):
-            raise serializers.ValidationError(
-                {'old_password': 'Wrong password.'})
-
-    def update(self, instance, validated_data):
-        instance.set_password(validated_data['new_password'])
-        instance.save()
-
-        return instance
+    old_password = serializers.CharField(required=True, max_length=30)

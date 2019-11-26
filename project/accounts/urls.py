@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import (LoginAPI, UserAPI, UserListAPI,
-                    UserRetrieveUpdateDeleteAPI, ChangePasswordAPI)
+                    UserRetrieveUpdateDeleteAPI, ChangePasswordAPI,
+                    SelfChangePassword)
 from knox import views as knox_views
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path('api/users', UserListAPI.as_view()),
     path('api/users/<int:pk>', UserRetrieveUpdateDeleteAPI.as_view()),
     path('api/changepassword/<int:pk>', ChangePasswordAPI.as_view()),
+    path('api/upwdchange/<int:pk>', SelfChangePassword.as_view()),
 ]
