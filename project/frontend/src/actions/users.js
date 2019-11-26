@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { USER_LOADING, GET_USERS, CREATE_USER, DELETE_USER, UPDATE_USER, GET_USER, U_LOADING} from './types';
+import { USER_LOADING, GET_USERS, CREATE_USER, DELETE_USER, 
+	UPDATE_USER, GET_USER, U_LOADING, USER_PASSWORD_CHANGE} from './types';
 import { createMessage, createError, clearError } from './messages';
 import createHeader from './createHeader';
 
@@ -89,7 +90,7 @@ export const deleteUser = user => (dispatch, getState) => {
 	// create header
 	const config = createHeader(getState().auth.token);
 	// create user data
-	dispatch({type:U_});
+	dispatch({type:U_LOADING});
 	axios.delete(`api/users/${user}`, config)
 		.then(res => {
 			dispatch(createMessage({userDeleted:'A user is deleted successfully.'}));				
@@ -100,6 +101,24 @@ export const deleteUser = user => (dispatch, getState) => {
 		})
 		.catch(err => {
 			dispatch(createError(err.response))
+		})
+}
+
+export const changePassword = (user, pwd) => (dispatch, getState) => {
+	console.log('change user password');
+	// create header
+	const config = createHeader(getState().auth.token);
+	// create user data
+	dispatch({type:U_LOADING});
+	axios.put(`api/changepassword/${user}`,{password:pwd} ,config)
+		.then(res => {
+			dispatch(createMessage({passwordChanged:'User password is changed successfully'}));				
+			dispatch({
+				type: USER_PASSWORD_CHANGE
+			})
+		})
+		.catch(err => {
+			console.log(err);
 		})
 }
 

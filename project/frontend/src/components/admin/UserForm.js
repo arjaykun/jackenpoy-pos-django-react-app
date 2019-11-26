@@ -12,7 +12,7 @@ function UserForm(props) {
 
 	useEffect( () => {		
 		props.close();
-	}, [props.created])
+	}, [props.loading])
 
 	const handleSubmit = e => {
 		e.preventDefault();

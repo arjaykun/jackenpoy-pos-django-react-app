@@ -1,5 +1,5 @@
 import { GET_USERS, CREATE_USER, U_LOADING, 
-	DELETE_USER, UPDATE_USER, GET_USER } from "../actions/types"
+	DELETE_USER, UPDATE_USER, GET_USER, USER_PASSWORD_CHANGE } from "../actions/types"
 
 const initialState = {
 	users: [],
@@ -45,6 +45,11 @@ export default function(state=initialState, action) {
 			return {
 				...state,
 				users: state.users.filter( u => u.id !== action.payload),
+				loading: false,
+			}
+		case USER_PASSWORD_CHANGE:
+			return {
+				...state,
 				loading: false,
 			}
 		default: 

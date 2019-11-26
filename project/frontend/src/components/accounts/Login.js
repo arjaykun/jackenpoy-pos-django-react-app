@@ -22,11 +22,10 @@ function Login(props) {
 			return;
 		}
 
-		if( props.attempt <= 4 ) {
-			if(username !== '' && password !== '') {			
-				props.login(username, password);
-				setFieldError('');
-				if( props.attempt >= 3 ) {
+		if( props.attempt < 4 ) {
+			if(username !== '' && password !== '') {
+				setFieldError('');			
+				if( props.attempt > 3 ) {
 					setFieldError('You have reached maximum attempt to login.');
 					let now = new Date()
 					now.setMinutes(now.getMinutes() + 5) // add 5 minutes
@@ -34,6 +33,12 @@ function Login(props) {
 					console.log('penalize')
 					localStorage.setItem('login_date', now);
 					props.resetAttempt();	
+				} else {
+					props.login(username, password);
+
+					if(props.attempt >= 3) {						
+						setFieldError('You have reached maximum attempt to login.');
+					}	
 				}
 			}
 			else 

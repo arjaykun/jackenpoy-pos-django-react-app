@@ -15,6 +15,7 @@ import Dashboard from "./Dashboard";
 import Items from "./shop/Items";
 import OrderView from "./kitchen/OrderView";
 import Login from "./accounts/Login";
+import Profile from "./accounts/Profile";
 import PrivateRoute from "./common/PrivateRoute";
 
 import { Provider } from "react-redux";
@@ -54,6 +55,7 @@ class App extends Component {
 									<PrivateRoute exact path="/admin/menu" component={Menu} />
 									<PrivateRoute exact path="/admin/orders" component={Orders} />
 									<PrivateRoute exact path="/admin/sales" component={Sales} />
+									<PrivateRoute exact path="/profile" component={Profile} />
 									<Route exact path="/login" component={Login} />
 								</Switch>
 						</Fragment>

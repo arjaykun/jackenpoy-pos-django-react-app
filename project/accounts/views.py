@@ -1,7 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import LoginRequiredMixin
 from .serializers import (UserSerializer, LoginSerializer,
                           CreateUserSerializer, RetrieveModifyUserSerializer,
                           ChangePasswordSerializer, ChangePasswordSerializer2)
@@ -34,7 +33,7 @@ class UserAPI(generics.RetrieveAPIView):
 
 
 class UserListAPI(generics.ListCreateAPIView):
-    serializer_class = CreateUserSerializer
+    serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny, ]
     queryset = User.objects.all()
 

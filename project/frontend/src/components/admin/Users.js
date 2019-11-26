@@ -4,6 +4,7 @@ import AdminNav from './AdminNav';
 import UserForm from './UserForm';
 import UpdateForm from './UpdateForm';
 import ConfirmForm from './ConfirmForm';
+import ChangePasswordForm from './ChangePasswordForm';
 import PropTypes from 'prop-types';
 import Rodal from 'rodal';
 
@@ -11,6 +12,7 @@ function Users(props) {
 	const users = props.users;
 	const [visible, setVisible] = useState(false);
 	const [update, setUpdate] = useState(false);
+	const [passwordForm, setPasswordForm] = useState(false);
 	const [confirm, setConfirm] = useState(false);
 	const [choice, setChoice] = useState({});
 
@@ -18,6 +20,10 @@ function Users(props) {
 	const handleUpdate = user => {
 		setChoice(user);
 		setUpdate(true);
+	}
+	const handleChangePwd = user => {
+		setChoice(user);
+		setPasswordForm(true);
 	}
 	const handleDelete = user => {
 		setChoice(user);
@@ -61,18 +67,20 @@ function Users(props) {
 		    <tbody>
 		  		{
 		  		users?
-	  			users.map( user => (
+	  			users.filter( user => user.is_superuser !== true).map( user => (
 	  				<tr key={user.id}>
 	  					<td>{user.username}</td>
 	  					<td>{`${user.first_name} ${user.last_name}`}</td>
 	  					<td>{user.email}</td>
 	  					<td>{user.is_staff? 
-	  						<i className="fas fa-check"></i>:
-	  						<i className="fas fa-times"></i>}
+	  						<i className="fas fa-check text-success"></i>:
+	  						<i className="fas fa-times text-danger"></i>}
 	  					</td>
 
-	  					<td><button className="btn btn-primary btn-small">
-	  						change 
+	  					<td><button className="btn btn-primary btn-small"
+	  							onClick={() => handleChangePwd(user)}
+	  						>
+	  						change <i className="fas fa-pen"> </i>
 	  					</button></td>
 	  					<td>	
 	  						<button 
@@ -105,6 +113,17 @@ function Users(props) {
 		 	leaveAnimation="door"
 		 	>
 		 	<UpdateForm user={choice} close={() => setUpdate(false)}/>
+		</Rodal>
+		<Rodal 
+		 	visible={passwordForm} 
+		 	onClose={ () => setPasswordForm(false)}
+		 	closeOnEsc={true}
+		 	width={500}
+		 	height={420}
+		 	animation="flip"
+		 	leaveAnimation="door"
+		 	>
+		 	<ChangePasswordForm user={choice} close={() => setPasswordForm(false)}/>
 		</Rodal>
 		<Rodal 
 		 	visible={confirm} 

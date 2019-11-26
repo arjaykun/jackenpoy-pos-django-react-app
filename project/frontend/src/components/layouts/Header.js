@@ -16,7 +16,11 @@ class Header extends Component {
 		const authLinks = (
 			<Fragment>
 				<li className="navbar-text text-light">
-					{ isAuthenticated? user.username.toUpperCase() : ''} |
+
+			    <Link to="/profile">
+					{ isAuthenticated? user.username.toUpperCase() : ''}
+			    </Link> |
+			    
 				</li>
 				 <li className="nav-item">	
 				     <button className="btn btn-small btn-link text-light"
