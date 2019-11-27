@@ -21,29 +21,26 @@ function Login(props) {
 			setPassword('')
 			return;
 		}
+	
+		if(username !== '' && password !== '') {
+			setFieldError('');			
+			 props.login(username, password);
+		
 
-		if( props.attempt < 4 ) {
-			if(username !== '' && password !== '') {
-				setFieldError('');			
-				if( props.attempt > 3 ) {
-					setFieldError('You have reached maximum attempt to login.');
-					let now = new Date()
-					now.setMinutes(now.getMinutes() + 5) // add 5 minutes
-					now = new Date(now);
-					console.log('penalize')
-					localStorage.setItem('login_date', now);
-					props.resetAttempt();	
-				} else {
-					props.login(username, password);
-
-					if(props.attempt >= 3) {						
-						setFieldError('You have reached maximum attempt to login.');
-					}	
-				}
-			}
-			else 
-				setFieldError('Both fields may not be blank.');		
-		} 
+			if(props.attempt >= 3) {						
+				setFieldError('You have reached maximum attempt to login.');
+				let now = new Date()
+				now.setMinutes(now.getMinutes() + 5) // add 5 minutes
+				now = new Date(now);
+				console.log('penalize')
+				localStorage.setItem('login_date', now);
+				props.resetAttempt();	
+			}	
+			
+		}
+		else 
+			setFieldError('Both fields may not be blank.');		
+		
 
 		//clear text input value
 		setPassword('')

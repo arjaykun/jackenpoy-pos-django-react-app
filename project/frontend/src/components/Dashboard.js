@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 
 function Dashboard() {
+	useEffect( ()=> {
+		localStorage.removeItem('login_date')
+	},[])
 	return (
 		<div className="container d-flex align-items-center justify-content-center">
 			<div className="mt-5 card p-5">
