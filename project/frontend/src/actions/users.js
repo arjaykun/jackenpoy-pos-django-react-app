@@ -48,8 +48,10 @@ export const createUser = user => (dispatch, getState) => {
 	const config = createHeader(getState().auth.token);
 
 	dispatch({type:U_LOADING});
+	dispatch(clearError());
 	axios.post('api/users', user, config)
 		.then(res => {
+			dispatch(clearError());
 			dispatch(createMessage({userAdded:'A user is created successfully.'}));				
 			dispatch({
 				type: CREATE_USER,
@@ -58,9 +60,6 @@ export const createUser = user => (dispatch, getState) => {
 		})
 		.catch(err => {
 			dispatch(createError(err.response));
-			dispatch({type:UNLOADING});			
-	
-			clearError();
 		})
 }
 
@@ -69,7 +68,7 @@ export const updateUser = (user, id) => (dispatch, getState) => {
 	// create header
 	const config = createHeader(getState().auth.token);
 	dispatch({type:U_LOADING});
-	
+	dispatch(clearError());
 	axios.put(`api/users/${id}`, user, config)
 		.then(res => {
 			dispatch(createMessage({userUpdated:'A user is updated successfully.'}));				
@@ -77,11 +76,9 @@ export const updateUser = (user, id) => (dispatch, getState) => {
 				type: UPDATE_USER,
 				payload: res.data
 			});
-			dispatch(clearError());
 		})
 		.catch(err => {
 			dispatch(createError(err.response));
-			dispatch({type:UNLOADING});
 		})
 }
 
@@ -121,6 +118,28 @@ export const changePassword = (user, pwd) => (dispatch, getState) => {
 			console.log(err);
 		})
 }
+
+export const changeSelfPassword = (user, old_pwd, new_pwd) => (dispatch, getState) => {
+
+	console.log('change self user password');
+	// create header
+	const config = createHeader(getState().auth.token);
+	// create user data
+	dispatch(clearError());
+	dispatch({type:U_LOADING});
+	axios.put(`api/upwdchange/${user}`,{old_password:old_pwd, new_password:new_pwd} ,config)
+		.then(res => {
+			dispatch(createMessage({passwordChanged:'User password is changed successfully'}));				
+			dispatch({
+				type: USER_PASSWORD_CHANGE
+			})
+		})
+		.catch(err => {
+			dispatch(createError(err.response));
+		})
+}
+
+
 
 
 

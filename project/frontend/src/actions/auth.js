@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_FAIL,
  LOGIN_SUCCESS, LOGOUT_SUCCESS, RESET_ATTEMPT } from './types';
-import { createMessage, createError } from './messages';
+import { createMessage, createError, clearError } from './messages';
 import createHeader from './createHeader';
 
 // CHECK USER AND LOAD USER 
@@ -47,7 +47,7 @@ export const login = (username, password) => dispatch => {
 
 	axios.post('/api/auth/login', body, config)
 		.then(res => {	
-			dispatch(createError({msg:'', status:0, statusText:''}))
+			dispatch(clearError())
 			dispatch({
 				type: LOGIN_SUCCESS,
 				payload: res.data
@@ -86,5 +86,4 @@ export const logout = () => (dispatch, getState) => {
 export const resetAttempt = () => dispatch  => {
 	dispatch({type:RESET_ATTEMPT})
 }
-
 

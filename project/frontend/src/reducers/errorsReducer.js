@@ -1,8 +1,8 @@
 import { GET_ERRORS, CLEAR_ERROR } from '../actions/types.js';
 
 const initialState = {
-	msg: null,
-	status: 0,
+	msg: {},
+	status: 200,
 	statusText: '',
 };
 
@@ -16,8 +16,9 @@ export default function(state=initialState, action) {
 			}
 		case CLEAR_ERROR:
 			return {
-				msg: null,
-				status: 0,
+				...state,
+				msg: {},
+				status: 200,
 				statusText: '',
 			}
 		default:

@@ -14,12 +14,14 @@ function UpdateForm(props) {
 	}, [props.user]);
 
 	useEffect( () => {
+		if(!props.loading)
 		props.close()
 	}, [props.loading])
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		if(user.first_name !== "" && user.last_name !== "" && user.email !== "") {
+		if(user.first_name !== "" && user.last_name !== "" && user.email !== "" &&
+			user.username !== "") {
 			props.updateUser(user, props.user.id)
 			setInputError('')
 		} else {
@@ -32,19 +34,22 @@ function UpdateForm(props) {
 		<Fragment>
 
 		<h4> Update User ({props.user.username})
-			{ props.loading ? 
+			{ props.error.status === 200 ? props.loading ? 
 				<span><i className="fas fa-spinner fa-pulse"> </i></span>
-				:<span></span>} 	
+				:<span></span>:<span></span>} 	
 		</h4>
 		<hr />
 
-	  	{ inputError !== '' ? 
-			<div className="alert alert-danger text-center">{inputError}</div>:			
-			error? 
-				error.username?
-				<div className="alert alert-danger text-center">{error.username.join()}</div>:			
-				<span></span>:
-			<span></span>
+	  	{ inputError !== '' || props.error.status !== 200 ?
+	  			inputError !== '' ?
+					<div className="alert alert-danger text-center">{inputError}</div>
+				:	
+					props.loading?
+					<div className="alert alert-danger text-center">
+						{props.error.msg !== null ? props.error.msg.username.join() : <span></span>}
+					</div> : <span></span>
+				:
+				<span></span>
 		}
 	 	<form onSubmit={handleSubmit}>
 		  <div className="form-row">
@@ -106,7 +111,7 @@ UpdateForm.propTypes = {
 
 const mapToStateToProps = state => ({
 	loading: state.users.loading,
-	error: state.errors.msg
+	error: state.errors
 })
 
 export default connect(mapToStateToProps, {updateUser})(UpdateForm);

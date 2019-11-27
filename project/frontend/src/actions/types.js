@@ -50,6 +50,7 @@ export const RESET_ATTEMPT = 'RESET_ATTEMPT';
 
 //users
 export const U_LOADING = 'U_LOADING';
+export const U_UNLOADING = 'U_UNLOADING';
 export const GET_USERS = 'GET_USERS';
 export const GET_USER = 'GET_USER';
 export const CREATE_USER = 'CREATE_USER';

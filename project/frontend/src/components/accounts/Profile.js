@@ -2,10 +2,13 @@ import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Loader from '../layouts/Loader';
+import Rodal from 'rodal';
+import ChangePasswordForm from './ChangePasswordForm';
 
 function Profile(props) {
+	const [passwordForm, setPasswordForm] = useState(false);
+	const user = props.user;
 
-	const user = props.user
 	return (
 		<div className="d-flex justify-content-center align-items-center vh-100">
 			<div className="container w-50 my-3 p-3 border">		
@@ -21,7 +24,9 @@ function Profile(props) {
 											 </button> :
 											 <span></span>
 						}
-						<button className="btn btn-link text-dark">
+						<button className="btn btn-link text-dark"
+							onClick={ ()=> setPasswordForm(true)}
+							>
 							<u>Change Password <i className="fas fa-lock"></i></u>
 						</button>
 					</div>
@@ -42,6 +47,18 @@ function Profile(props) {
 
 				</div>
 			</div>
+
+			<Rodal 
+		 	visible={passwordForm} 
+		 	onClose={ () => setPasswordForm(false)}
+		 	closeOnEsc={true}
+		 	width={500}
+		 	height={420}
+		 	animation="flip"
+		 	leaveAnimation="door"
+		 	>
+		 		<ChangePasswordForm user={user} close={() => setPasswordForm(false)}/>
+			</Rodal>
 		</div>
 	);
 }

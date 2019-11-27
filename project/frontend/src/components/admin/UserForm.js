@@ -11,7 +11,10 @@ function UserForm(props) {
 	const [inputError, setInputError] = useState('');
 
 	useEffect( () => {		
-		props.close();
+		if(!props.loading) {
+			setUser(initialUser);
+			props.close();
+		}
 	}, [props.loading])
 
 	const handleSubmit = e => {
@@ -25,7 +28,6 @@ function UserForm(props) {
 			delete user.confPassword;
 			props.createUser(user);
 			setInputError('');
-			setUser(initialUser);
 		} else {
 			setInputError('Fill up all fields.');
 		}
@@ -36,15 +38,23 @@ function UserForm(props) {
 		<Fragment>
 
 		<h4> { props.title }
-			{ props.loading ? 
+			{ props.error.status === 200 ? props.loading ? 
 				<span><i className="fas fa-spinner fa-pulse"> </i></span>
-				:<span></span>} 
+				:<span></span>:<span></span>} 
 		</h4>
 		<hr />
 
-	  	{ inputError !== '' ? 
-			<div className="alert alert-danger text-center">{inputError}</div>:
-			<span></span>
+	  	{ 
+	  		inputError !== '' || props.error.status !== 200 ?
+	  			inputError !== '' ?
+					<div className="alert alert-danger text-center">{inputError}</div>
+				:	
+					props.loading?
+					<div className="alert alert-danger text-center">
+						{props.error.msg !== null ? props.error.msg.username.join() : <span></span>}
+					</div> : <span></span>
+				:
+				<span></span>
 		}
 	 	<form onSubmit={handleSubmit}>
 		  <div className="form-row">
