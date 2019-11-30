@@ -27,6 +27,7 @@ function AddItemForm(props) {
 		if(item.name !== '' && (item.price !==0 || item.price !== '') 
 		 && item.category !==  0) {
 			props.createItem(item)
+			setItem(initialItem);_
 			setInputError('');
 		}
 		else 

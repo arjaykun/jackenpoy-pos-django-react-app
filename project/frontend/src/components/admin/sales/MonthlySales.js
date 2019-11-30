@@ -20,7 +20,7 @@ function MonthlySales(props) {
 			     				<tr key={index}>
 			     					<td>{month[new Date(item.date).getMonth()]}, {new Date(item.date).getFullYear()}</td>
 			     					<td>{item.count}</td>
-			     					<td>&#8369;{item.sales}</td>
+			     					<td>&#8369;{item.sales.toFixed(2)}</td>
 			     				</tr>
 			     			))
 			     		}
@@ -36,7 +36,7 @@ function MonthlySales(props) {
 			     			<td>
 			     				&#8369;{props.sales.reduce( (a,b) => (
 			     						a+ Number(b.sales)
-			     				), 0)}
+			     				), 0).toFixed(2)}
 			     			</td>
 			     		</tr>
 				    </tbody>

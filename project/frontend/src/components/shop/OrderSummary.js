@@ -6,26 +6,31 @@ import { getCart,
 		changeQuantity, 
 		addDiscount } from '../../actions/cart';
 import PropTypes from 'prop-types';
-import QuantityModal from '../layouts/QuantityModal';
+// import QuantityModal from '../layouts/QuantityModal';
+import QuantityModal from './QuantityModal';
 import ConfirmModal from '../layouts/ConfirmModal';
 import Order from './Order';
-
+import Rodal from 'rodal';
 function OrderSummary(props) {
-	const propTypes = {
-		cart: PropTypes.object.isRequired,
-		getCart: PropTypes.func.isRequired,
-		removeInCart: PropTypes.func.isRequired,
-		changeQuantity: PropTypes.func.isRequired,
-	}
+
 	const cart = props.cart;
 	const [modalData, setModalData] = useState({
 		quantity: 0,
 		item: {},
 	})
+	const [qtyModal, setQtyModal] = useState(false);
+
 	useEffect( ()=> {
 		props.getCart();
 	}, [])
 
+	const handleQtyClick = (item) => {
+		setModalData({
+			quantity: item.quantity,
+			item: item
+		})
+		setQtyModal(true);
+	}
 	return (
 		<Fragment>
 			<h3 className="text-center">Order Summary <i className="text-primary fas fa-cart-plus"></i></h3>
@@ -82,12 +87,7 @@ function OrderSummary(props) {
 										<i className="fas fa-times "></i>
 									</button>
 									<button className="btn text-light bg-info rounded-circle mr-1" 
-									 		data-toggle="modal" 
-									 		data-target="#myModal"
-									 		onClick={() => setModalData({
-									 			quantity: item.quantity,
-									 			item: item
-									 		})}
+									 		onClick={() => handleQtyClick(item)}
 									 		>
 									 	<i className="fas fa-pen"></i>
 									 </button>
@@ -118,11 +118,23 @@ function OrderSummary(props) {
 				:
 					<div></div>
 			}
-			<QuantityModal 
-				data={modalData}
-				onClick={ () => props.changeQuantity(modalData.item, modalData.quantity)}
-				onChange={ qty => setModalData({item: modalData.item, quantity:qty})}
-			/>
+
+			<Rodal 
+			 	visible={qtyModal} 
+			 	onClose={ () => setQtyModal(false)}
+			 	closeOnEsc={true}
+			 	width={300}
+			 	height={250}
+			 	animation="flip"
+		 	>
+		 		<QuantityModal 
+		 			close={ ()=> setQtyModal(false)}
+					data={modalData}
+					onClick={ () => props.changeQuantity(modalData.item, modalData.quantity)}
+					onChange={ qty => setModalData({item: modalData.item, quantity:qty})}
+				/>
+		 	</Rodal>
+			
 			<ConfirmModal 
 				onClickYes={ () => props.clearCart()}
 			/>
@@ -130,8 +142,16 @@ function OrderSummary(props) {
 	)
 }
 
+OrderSummary.propTypes = {
+	cart: PropTypes.object.isRequired,
+	getCart: PropTypes.func.isRequired,
+	removeInCart: PropTypes.func.isRequired,
+	changeQuantity: PropTypes.func.isRequired,
+}
+
 const mapStateToProps = state => ({
 	cart: state.cart,
+	items: state.items.items
 });
 
 export default connect(mapStateToProps, 

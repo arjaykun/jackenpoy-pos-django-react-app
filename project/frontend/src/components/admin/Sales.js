@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import {  connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AdminNav from './AdminNav';
@@ -6,14 +6,23 @@ import DailySales from './sales/DailySales';
 import MonthlySales from './sales/MonthlySales';
 import YearlySales from './sales/YearlySales';
 import Loader from '../layouts/Loader';
+import {getSales} from '../../actions/sales';
+
 function Sales(props) {
+
+	useEffect( () => {
+		props.getSales()
+	}, [])
+
 	const [option, setOption] = useState('daily');
 	const dateFiltering = (option === "daily" ? 
-								<DailySales sales={props.daily} /> :
+								<DailySales sales={props.daily} getSales={(url) => props.getSales(url)} /> :
 						  option === "monthly" ?
 						  		<MonthlySales sales={props.monthly} /> :
 						  		<YearlySales sales={props.yearly} />	
 						  )
+	
+
 	return(
 		<Fragment>
 			{	
@@ -68,6 +77,7 @@ function Sales(props) {
 
 Sales.propTypes = {
 	loading: PropTypes.bool.isRequired,
+	getSales: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -77,4 +87,4 @@ const mapStateToProps = state => ({
 	loading: state.sales.loading,
 })
 
-export default connect(mapStateToProps)(Sales);
+export default connect(mapStateToProps, {getSales})(Sales);

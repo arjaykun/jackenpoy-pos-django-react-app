@@ -16,33 +16,48 @@ function OrderModal(props) {
 	const order = props.order;
 	const [payment, setPayment] = useState(0);
 	const [change, setChange] = useState(0);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState("");
+	const [dine, setDine] = useState(true);
 
 	const hangeChange = (value) => {
-		if(/^[0-9]+$/.test(value)) {		
-			setPayment(value);
+		setPayment(value);
+		if(/^[0-9 ]+$/.test(value)) {
+			
 			const newChange = Number(value) - Number(cart.total);
 			if(newChange >= 0) {
 				setChange(newChange);
 			} else {
 				setChange(0);
 			}
-			setError(false);
+			setError('');
 		} else {
 			setPayment(value);
 			setChange(0);
-			setError(true);
+			setError("Invalid characters on payment.");
 		}
 	}
 
 	const handeSubmit = (event) => {
 		event.preventDefault();
-
-		hideModal();
-		props.createOrder(
-			{ 'user': props.user.id, 'total_price': cart.total, 'discounted_price': cart.discounted}, 
-			cart.items
-		)
+		if(payment !== '') {
+			if(payment < cart.total ) {
+				setError("Invalid payment value.")
+				return;
+			}
+		} else {
+			setError("Payment has no value.")
+		}
+		console.log(payment)
+		// hideModal();
+		// props.createOrder(
+		// 	{ 
+		// 		'user': props.user.id, 
+		// 		'total_price': cart.total, 
+		// 		'discounted_price': cart.discounted,
+		// 		'is_dine': dine,
+		// 	}, 
+		// 	cart.items
+		// )
 	}
 
 
@@ -70,10 +85,10 @@ function OrderModal(props) {
 				        		value={payment} 
 				        		onClick={(e) => e.target.value = ""}
 				        		onChange={(e) => hangeChange(e.target.value)} />
-				        	{error? 
+				        	{error !== "" ? 
 				        		<div className="alert alert-danger">
 				        			<strong>Warning! </strong>
-				        			Payment is required and should consists of numbers only..
+				        			{error}
 				        		</div>:''
 				        	}
 			        		<div className="mt-2 d-flex">
@@ -84,6 +99,17 @@ function OrderModal(props) {
 				        			Change: <br/><strong>&#8369; {change}</strong>
 				        		</h3>
 			        		</div>
+
+							<div className="form-group float-right">
+							    <div className="form-check">
+							      <input className="form-check-input" type="checkbox" id="take-out" 
+							        value={dine}
+							      	onChange={(e)=> setDine(!e.target.checked)}/>
+							      <label className="form-check-label" htmlFor="take-out">
+							         Take out <i className="fas fa-basket"></i>
+							       </label>
+							    </div>
+						  </div>
 			        	</div>
 			        </div>
 

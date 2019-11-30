@@ -8,7 +8,7 @@
 # urlpatterns = router.urls
 
 from django.urls import path
-from .views import (ItemList, CategoryList,
+from .views import (ItemList, CategoryList, AllItemList,
                     OrderListCreate, OrderItemCreate, ItemRetrieveUpdate,
                     OrderUpdate, CategoryCreate, CategoryUpdate, DailySales,
                     MonthlySales, YearlySales)
@@ -17,6 +17,7 @@ app_name = "shop"
 
 urlpatterns = [
     path('items/', ItemList.as_view(), name="item-list"),
+    path('aitems/', AllItemList.as_view(), name="all_item-list"),
     path('items/<int:pk>', ItemRetrieveUpdate.as_view()),
     path('categories/', CategoryList.as_view(), name="category-list"),
     path('categories/<int:pk>', CategoryUpdate.as_view(),

@@ -7,7 +7,21 @@ function DailySales(props) {
 			  <table className="table">
 				    <thead className="thead-dark">
 				      <tr>
-				        <th>Date</th>
+				        <th>
+				        	<div className="d-flex">
+				        		<div className="mr-2">Date</div>
+					        	<div  className="text-light"
+					        		style={{cursor:"pointer"}}
+					        		onClick={ ()=> props.getSales('api/dsales?ordering=date')}>
+					        		<i className="fas fa-arrow-up"></i>
+					        	</div>
+					        	<div className="text-light"
+					        		style={{cursor:"pointer"}}
+					        		onClick={ ()=> props.getSales('api/dsales?ordering=-date')}>
+					        		<i className="fas fa-arrow-down"></i>
+					        	</div>
+				        	</div>
+				        </th>
 				        <th>Order Count</th>
 				        <th>Total Sales</th>
 				      </tr>
@@ -34,7 +48,7 @@ function DailySales(props) {
 			     			<td>
 			     				&#8369;{props.sales.reduce( (a,b) => (
 			     						a+ Number(b.sales)
-			     				), 0)}
+			     				), 0).toFixed(2)}
 			     			</td>
 			     		</tr>
 				    </tbody>

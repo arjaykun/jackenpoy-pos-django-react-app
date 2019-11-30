@@ -5,6 +5,7 @@ function ItemBox(props) {
 	const styles = {
 		width: '100px',
 		height: '100px',
+		cursor: 'pointer'
 	};
 
 	const color = {
@@ -23,7 +24,7 @@ function ItemBox(props) {
 	return (
 		<div
 			className={`mr-1 bg-${color[category.find(x => x.id === item.category).color]} text-light 
-			text-center d-flex flex-column justify-content-center`}
+			text-center d-flex flex-column justify-content-center mb-1 item`}
 			style={styles}
 			onClick={props.onClick}
 		>

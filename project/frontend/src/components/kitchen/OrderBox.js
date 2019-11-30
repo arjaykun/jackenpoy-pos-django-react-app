@@ -30,13 +30,22 @@ function OrderBox(props) {
 							</tr>
 						))
 					}
+					<tr>
+						<td colSpan="2" className="text-center">
+							<strong>{order.is_dine? "Dine-in" : "Take-out"}</strong>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<button 
 				className="btn text-light bg-success"
 				onClick={() => props.completeOrder(order)}
-			>
-				Complete <i className="fas fa-check-circle"></i>
+			>	
+				Complete
+				{props.loading? 
+					<i className="fas fa-spinner fa-pulse"> </i>:
+					<i className="fas fa-check-circle ml-2"></i>}
+				 
 			</button>
 		</div>
 	);
@@ -46,11 +55,13 @@ OrderBox.propTypes = {
 	items: PropTypes.array.isRequired,
 	order_items: PropTypes.array.isRequired,
 	completeOrder: PropTypes.func.isRequired,
+	loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
 	items: state.items.items,
 	order_items: state.order.order_items,
+	loading: state.order.loading
 })
 
 export default connect(mapStateToProps,{completeOrder})(OrderBox)

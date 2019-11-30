@@ -4,26 +4,29 @@ import { GET_ITEMS, FILTER_BY_CATEGORY,
 import { createMessage, createError } from './messages';
 import createHeader from './createHeader';
 
-export const getItems = () => (dispatch, getState) => {
+export const getItems = (url='api/items', all=false) => (dispatch, getState) => {
 
 	// create header
 	const config = createHeader(getState().auth.token);
 	dispatch({type:ITEM_LOADING});
 	console.log('getting items');
-	 axios.get('api/items/',config)
+	 axios.get(url,config)
 	 	.then(res => {
 	 		axios.get('api/categories/', config)
 			.then( cat => {
 		 		dispatch({
 		 			type: GET_ITEMS,
-		 			payload: {items: res.data, categories: cat.data} 
+		 			payload: {
+		 				items: all ? res.data : res.data.results, 
+		 				next: all ? null : res.data.next,
+		 				previous: all ? null : res.data.previous,
+		 				count: all ? 0 : res.data.count,
+		 				categories: cat.data
+		 			} 
 		 		});
 			})
 			.catch(err => {
-				dispatch({
-					type: GET_ERRORS,
-					payload: err
-				})
+				dispatch(createError(err.response))
 			})
 	 	})
 		.catch(err => {

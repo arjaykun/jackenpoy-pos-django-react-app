@@ -12,7 +12,7 @@ import Orders from "./admin/Orders";
 import Sales from "./admin/Sales";
 import Categories from "./admin/Categories";
 import Dashboard from "./Dashboard";
-import Items from "./shop/Items";
+import Shop from "./shop/Shop";
 import OrderView from "./kitchen/OrderView";
 import Login from "./accounts/Login";
 import Profile from "./accounts/Profile";
@@ -47,7 +47,7 @@ class App extends Component {
 							<Alerts />
 								<Switch>
 									<PrivateRoute exact path="/" component={Dashboard} />
-									<PrivateRoute exact path="/shop" component={Items} />
+									<PrivateRoute exact path="/shop" component={Shop} />
 									<PrivateRoute exact path="/orders" component={OrderView} />
 									<PrivateRoute exact path="/admin" component={AdminDashboard} />
 									<PrivateRoute exact path="/admin/users" component={Users} />

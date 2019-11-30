@@ -8,25 +8,27 @@ import {getItems} from '../../actions/items';
 
 function OrderView(props) {
 	useEffect( ()=> {
-		props.getOrders();
-		props.getItems();
+		console.log("is this calling?")
+		props.getOrders('api/orders?ordering=ordered_date&is_completed=false');
+		props.getItems('api/aitems/', true);
 		props.viewOrderItems();
 	}, [])
+	const filtered_orders = props.orders.filter( order => order.is_completed === false)
 
-	const filtered_order = props.orders.filter( o => o.is_completed === false);
 	return (
 		<div className="container my-4">
-			{ props.o_loading &&  props.i_loading ? 
+			{ props.o_loading ||  props.i_loading ? 
 				<Loader />
 			  :
 			  <Fragment>
 				{
-					filtered_order.length > 0 ?
+					filtered_orders.length > 0 ?
 					  <div className="d-flex flex-wrap">
 					  {
-					  	filtered_order.map( order => (
-					  		<OrderBox order={order} key={order.id} />
-					  	))
+					  	filtered_orders
+						  	.map( order => (
+						  		<OrderBox order={order} key={order.id} />
+						  	))
 					  }
 					  </div>
 					  :

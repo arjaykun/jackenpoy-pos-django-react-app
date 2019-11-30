@@ -14,7 +14,7 @@ export const createOrder = (order, orderitems) => (dispatch, getState) => {
 	const d = new Date();
 	const or_number =  d.getMonth() + "" + d.getDay() + "" + d.getHours()
 	+ "" + d.getMinutes()  + "" +  Date.now().toString().substring(9)
-	console.log(or_number)
+	dispatch({type:ORDER_LOADING})
 	axios.post('api/orders/', {...order, or_number}, config)
 		.then( res => {
 			orderitems.forEach( item => {
@@ -41,19 +41,25 @@ export const createOrder = (order, orderitems) => (dispatch, getState) => {
 
 //FETCH ALL ORDERS
 
-export const getOrders = () => (dispatch, getState) => {
+export const getOrders = (url='api/orders') => (dispatch, getState) => {
 
 	// create header
 	const config = createHeader(getState().auth.token);
 	console.log('getting orders');
 	// create user data
 	dispatch({type:ORDER_LOADING})
-	axios.get('api/orders', config)
+	axios.get(url, config)
 		.then(res => {
 			dispatch({
 				type: GET_ORDERS,
-				payload: res.data	
+				payload: {
+					orders:res.data.results,
+					next: res.data.next,
+					previous: res.data.previous,
+					count: res.data.count,
+				}
 			})
+			console.log(res.data)
 		})	
 		.catch(err => {
 			dispatch(createError(err.response));

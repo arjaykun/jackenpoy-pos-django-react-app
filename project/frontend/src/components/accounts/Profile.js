@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import Loader from '../layouts/Loader';
 import Rodal from 'rodal';
 import ChangePasswordForm from './ChangePasswordForm';
+import UpdateForm from '../admin/UpdateForm';
 
 function Profile(props) {
 	const [passwordForm, setPasswordForm] = useState(false);
+	const [update, setUpdate] = useState(false);
 	const user = props.user;
 
 	return (
@@ -19,10 +21,13 @@ function Profile(props) {
 				<div>
 					<div className="d-flex mb-2">
 						{
-							user.is_superuser? <button className="btn btn-link text-dark">
-													<u>Update Profile <i className="fas fa-user-edit"></i></u>
-											 </button> :
-											 <span></span>
+							user.is_superuser? 
+							<button className="btn btn-link text-dark"
+									onClick={ ()=> setUpdate(true)}>
+								<u>Update Profile <i className="fas fa-user-edit"></i></u>
+							 </button> 
+							 :
+							 <span></span>
 						}
 						<button className="btn btn-link text-dark"
 							onClick={ ()=> setPasswordForm(true)}
@@ -48,14 +53,26 @@ function Profile(props) {
 				</div>
 			</div>
 
+			{/*modal here*/}
+			 <Rodal 
+			 	visible={update} 
+			 	onClose={ () => setUpdate(false)}
+			 	closeOnEsc={true}
+			 	width={500}
+			 	height={420}
+			 	animation="flip"
+			 	leaveAnimation="door"
+			 	>
+			 	<UpdateForm user={user} close={() => setUpdate(false)}/>
+			</Rodal>
 			<Rodal 
-		 	visible={passwordForm} 
-		 	onClose={ () => setPasswordForm(false)}
-		 	closeOnEsc={true}
-		 	width={500}
-		 	height={420}
-		 	animation="flip"
-		 	leaveAnimation="door"
+			 	visible={passwordForm} 
+			 	onClose={ () => setPasswordForm(false)}
+			 	closeOnEsc={true}
+			 	width={500}
+			 	height={420}
+			 	animation="flip"
+			 	leaveAnimation="door"
 		 	>
 		 		<ChangePasswordForm user={user} close={() => setPasswordForm(false)}/>
 			</Rodal>

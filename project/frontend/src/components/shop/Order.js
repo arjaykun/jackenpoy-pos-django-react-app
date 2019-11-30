@@ -1,16 +1,14 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OrderModal from '../layouts/OrderModal';
+// import OrderModal from '../layouts/OrderModal';
+import OrderModal from './OrderModal';
+import Rodal from 'rodal';
 
 
 function Order(props) {
- const propTypes = {
- 	cart: PropTypes.object.isRequired,
- 	createOrder: PropTypes.func.isRequired,
- }
+ const [orderModal, setOrderModal] = useState(false);
  const cart = props.cart;
- const order = props.order;
  return (
  	<Fragment>
 		<div className="text-right bg-secondary p-3">
@@ -18,19 +16,31 @@ function Order(props) {
 		</div>
 		<button 
 			className="btn btn-primary btn-block"
-			data-toggle="modal" 
-			data-target="#orderModal" >
+			onClick={ () => setOrderModal(true) }
+		>
 				Checkout <i className="fas fa-check-circle"></i> 
 		</button>
 
-		<OrderModal />
+		<Rodal 
+		 	visible={orderModal} 
+		 	onClose={ () => setOrderModal(false)}
+		 	closeOnEsc={true}
+		 	width={850}
+		 	height={600}
+		 	animation="flip"
+		 	>
+		 	<OrderModal
+	 			close={() => setOrderModal(false)} />
+		 </Rodal>
+
+		
 	</Fragment>
  )
 }
 
+
 const mapStateToProps = state => ({
-	cart: state.cart,
-	order: state.order,
+	cart: state.cart
 });
 
 

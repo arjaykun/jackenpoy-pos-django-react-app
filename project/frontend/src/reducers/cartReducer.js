@@ -16,7 +16,7 @@ function getItems(p_items, item=null) {
 		p_items.filter(i => i.id === item.id).length >= 1 ?
 			p_items.map( i=> {
 				if(i.id === item.id)
-					return {...i, quantity:i.quantity + 1}
+					return {...i, quantity:Number(i.quantity) + 1}
 				return i;
 			}):
 			[...p_items, item] : 

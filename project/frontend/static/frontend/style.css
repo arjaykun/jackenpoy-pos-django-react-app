@@ -86,3 +86,11 @@
   text-align: center;
   color: #fff;
 }
+
+.category:hover {
+  opacity: 0.9;
+}
+
+.item:hover {
+  opacity: 0.9;
+}

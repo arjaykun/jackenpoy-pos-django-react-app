@@ -16,7 +16,7 @@ function SalePanels(props) {
 			                &#8369;{!props.loading? 
 			                	props.daily.filter(s => new Date(s.date).toDateString() === new Date().toDateString())
 			                			   .reduce( (a,b) => (
-		     						a+ Number(b.sales)), 0)
+		     						a+ Number(b.sales)), 0).toFixed(2)
 		                		: <div className="spinner-border text-light"></div>}
             		</Panel>
 				 </div>
@@ -46,7 +46,7 @@ function SalePanels(props) {
 					              &#8369;{!props.loading? 
 			                	props.yearly.filter(s => new Date(s.date).getYear() === new Date().getYear())
 			                			   .reduce( (a,b) => (
-		     						a+ Number(b.sales)), 0)
+		     						a+ Number(b.sales)), 0).toFixed(2)
 		                		: <div className="spinner-border text-light"></div>}
 		            	</Panel>
 				 </div>
@@ -61,7 +61,7 @@ function SalePanels(props) {
 		                	props.monthly.filter(s => new Date(s.date).getMonth() === new Date().getMonth() &&
 		                		 new Date(s.date).getYear() === new Date().getYear())
 		                			   .reduce( (a,b) => (
-	     						a+ Number(b.sales)), 0)
+	     						a+ Number(b.sales)), 0).toFixed(2)
 	                		: <div className="spinner-border text-light"></div>}
 	            	</Panel>
 				 </div>

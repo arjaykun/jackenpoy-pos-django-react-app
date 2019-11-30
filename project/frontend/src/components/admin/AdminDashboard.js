@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import ERROR_404 from '../layouts/ERROR_404';
 import { getUsers } from '../../actions/users';
 import AdminNav from './AdminNav';
-import { getItems } from '../../actions/items';
 import { getCategories } from '../../actions/categories';
 import {getSales} from '../../actions/sales';
 
@@ -17,7 +16,6 @@ function AdminDashboard(props) {
 	useEffect( () => {
 		props.getSales();
 		props.getUsers();
-		props.getItems();
 		props.getCategories();
 	}, [])
 
@@ -70,4 +68,4 @@ const mapStateToProps = state => ({
 	s_loading: state.sales.loading,
 })
 
-export default connect(mapStateToProps, {getUsers, getItems, getCategories, getSales})(AdminDashboard);
+export default connect(mapStateToProps, {getUsers, getCategories, getSales})(AdminDashboard);

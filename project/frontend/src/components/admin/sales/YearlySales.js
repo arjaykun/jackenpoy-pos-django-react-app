@@ -18,7 +18,7 @@ function YearlySales(props) {
 			     				<tr key={index}>
 			     					<td>{new Date(item.date).getFullYear()}</td>
 			     					<td>{item.count}</td>
-			     					<td>&#8369;{item.sales}</td>
+			     					<td>&#8369;{item.sales.toFixed(2)}</td>
 			     				</tr>
 			     			))
 			     		}
@@ -34,7 +34,7 @@ function YearlySales(props) {
 			     			<td>
 			     				&#8369;{props.sales.reduce( (a,b) => (
 			     						a+ Number(b.sales)
-			     				), 0)}
+			     				), 0).toFixed(2)}
 			     			</td>
 			     		</tr>
 				    </tbody>

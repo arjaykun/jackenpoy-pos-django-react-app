@@ -3,6 +3,9 @@ import { CREATE_ORDER, GET_ORDERS, ORDER_LOADING, GET_ACTIVE_ORDERS,
 
 const initialState = {
 	orders: [],
+	next: null,
+	previous: null,
+	count: 0,
 	order_items: [],
 	loading: false,
 	payment: 0,
@@ -25,7 +28,10 @@ export default function(state=initialState, action) {
 		case GET_ORDERS:
 			return {
 				...state,
-				orders: action.payload,
+				orders: action.payload.orders,
+				next: action.payload.next,
+				previous: action.payload.previous,
+				count: action.payload.count,
 				loading: false,
 			}	
 		case GET_ACTIVE_ORDERS:

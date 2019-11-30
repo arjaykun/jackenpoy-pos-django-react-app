@@ -7,6 +7,9 @@ from django.db.models.functions import TruncMonth, TruncDay, TruncYear
 from django.db.models import Sum, Count
 from .models import Item, Category, Order, OrderItem
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from django_filters import rest_framework as rfilters
+from rest_framework import filters
+from rest_framework import pagination
 from .serializers import (ItemSerializer,
                           CategorySerializer,
                           CategorySerializer2,
@@ -16,10 +19,33 @@ from .serializers import (ItemSerializer,
                           )
 
 
+class StandardResultsSetPagination(pagination.PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
 class ItemList(ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    filter_backends = (rfilters.DjangoFilterBackend, filters.SearchFilter,
+                       filters.OrderingFilter)
+    filterset_fields = ('category', 'status')
+    search_fields = ['name']
+    ordering_fields = ['name', 'id', 'price']
+    ordering = ['-id']
+    pagination_class = StandardResultsSetPagination
+
+
+class AllItemList(ListAPIView):
+    permission_classes = [AllowAny]
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    filter_backends = (rfilters.DjangoFilterBackend, filters.SearchFilter,)
+    filterset_fields = ('category',)
+    search_fields = ['name']
+    ordering = ['name']
 
 
 class ItemRetrieveUpdate(RetrieveUpdateDestroyAPIView):
@@ -32,6 +58,8 @@ class CategoryList(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['category']
 
 
 class CategoryCreate(CreateAPIView):
@@ -53,9 +81,16 @@ class OrderItemCreate(ListCreateAPIView):
 
 
 class OrderListCreate(ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    filter_backends = (rfilters.DjangoFilterBackend,
+                       filters.SearchFilter, filters.OrderingFilter)
+    filterset_fields = ('is_dine', 'is_completed', 'user__username')
+    search_fields = ['or_number', 'user__username']
+    ordering_fields = ['ordered_date']
+    ordering = ['-ordered_date']
+    pagination_class = StandardResultsSetPagination
 
 
 class OrderUpdate(RetrieveUpdateDestroyAPIView):
@@ -68,6 +103,10 @@ class DailySales(ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = SalesSerializer
     queryset = Order.objects.all()
+    filter_backends = (rfilters.DjangoFilterBackend,
+                       filters.SearchFilter, filters.OrderingFilter)
+    search_fields = ['date']
+    ordering_fields = ['date']
 
     def get_queryset(self):
         queryset = self.queryset

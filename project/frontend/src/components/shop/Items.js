@@ -1,16 +1,16 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getItems, filterItemsByCategory } from '../../actions/items';
+import { getItems } from '../../actions/items';
 import {  addInCart  } from '../../actions/cart';
 import ItemBox from './ItemBox';
 import CategoryBox from './CategoryBox';
 import OrderSummary from './OrderSummary';
 import Loader from '../layouts/Loader';
 function Items(props) {
-
+	const [search, setSearch] = useState('')
 	useEffect ( ()=> {
-		props.getItems();
+		props.getItems('api/aitems', true);
 	}, []);
 
 
@@ -20,70 +20,67 @@ function Items(props) {
 		props.loading?
 			<Loader />	
 		:
-		<div className="container mt-3 d-flex">
-			<div>
-				<div className="d-flex flex-column justify-content-center 
-				 mr-3 card px-2 py-5 text-light bg-dark">
-				<h1>M</h1>
-				<h1>E</h1>
-				<h1>N</h1>
-				<h1>U</h1>
-				</div>
-			</div>
-			<div className="row flex-fill">
-				<div className="col-md-6 p-1">
-					<div className="card p-2 d-flex flex-column">
-					{/*Category items*/}
-						<div className="d-flex border-bottom flex-wrap pb-2 mb-2">
-							{	
-								props.categories.map(cat => (
-									<CategoryBox 
-										categories={cat} 
-							 			key={cat.id} 
-							 			onClick={() => props.filterItemsByCategory(cat.id)}
-									/>
-								))
-							}
-						</div>
-					{/*Menu Items*/}
-						<div>
-					 		<div className="d-flex justify-content-center">
-					 		{
-						 		props.items.length > 0 ?
-							 		props.items
-							 			.filter(item => item.status === true)
-							 			.map( item => (
-							 			<ItemBox 
-								 			item={item} 
-								 			key={item.id} 
-								 			categories={props.categories}
-								 			onClick={() => props.addInCart({
-								 				id: item.id,
-								 				name:item.name,
-								 				price: item.price,
-								 				discounted_price:0,
-								 				quantity: 1,
-								 			})} />
-							 		))
-						 		:
-						 			<h5 className="jumbotron text-center">
-						 				<small>Choose a category to see menu items under it.
-						 					<br /> OR search an item via search box.
-						 				</small>
-						 			</h5>
+		<Fragment>
+			<div className="input-group mb-2">
+				  <input type="text" className="form-control" value={search} 
+				 	 placeholder="Search here..." 
+				 	 onChange={ (e) => setSearch(e.target.value) }/>
+				  <div className="input-group-append">
+				    <button className="btn btn-primary" type="button"
+				    	onClick={ 
+				    		()=> props.getItems(`api/aitems?search=${search}`, true)}
+				    >
+				    	<i className="fas fa-search"></i>
+				    </button>
+				  </div>
+		     </div>
 
-						 		}
-					 		</div>
+			<div className="card p-2 d-flex flex-column">
+				{/*Category items*/}
+					<div className="d-flex border-bottom flex-wrap pb-2 mb-2">
+						<div
+							className="mr-1 mb-1 text-light bg-dark 
+							text-center d-flex flex-column justify-content-center category"
+							onClick={() => props.getItems(`api/aitems?ordering=name`, true)}
+							style={{width:'70px', height:'70px', cursor: 'pointer'}}
+						>
+							<div>ALL</div>
 						</div>
+						{	
+							props.categories.map(cat => (
+								<CategoryBox 
+									categories={cat} 
+						 			key={cat.id} 
+						 			onClick={() => props.getItems(`api/aitems?category=${cat.id}`, true)}
+								/>									
+							))
+						}
 					</div>
-			 	</div>
-			 	<div className="col-md-6 p-1">
-			 		<div className="card p-2">
-			 			<OrderSummary />
+				{/*Menu Items*/}
+				<div>
+			 		<div className="d-flex flex-wrap">
+			 		{
+				 		props.items
+				 			.filter(item => item.status === true)
+				 			.map( item => (
+				 			<ItemBox 
+					 			item={item} 
+					 			key={item.id} 
+					 			categories={props.categories}
+					 			onClick={() => props.addInCart({
+					 				id: item.id,
+					 				name:item.name,
+					 				price: item.price,
+					 				discounted_price:0,
+					 				quantity: 1,
+					 			})} />
+				 		))
+
+				 		}
 			 		</div>
-			 	</div>
-		 	</div>
-		</div>
+				</div>
+			 </div>
+			</Fragment>
 		}
 		</Fragment>
 	);
@@ -95,19 +92,20 @@ Items.propTypes = {
 	categories: PropTypes.array.isRequired,
 	getItems: PropTypes.func.isRequired,
 	addInCart: PropTypes.func.isRequired,
-	filterItemsByCategory: PropTypes.func.isRequired,
 	isAuthenticated: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
-	items: state.items.filtered_items,
+	items: state.items.items,
 	categories: state.items.categories,
 	loading: state.items.loading, 
-	isAuthenticated: state.auth.isAuthenticated
+	isAuthenticated: state.auth.isAuthenticated,
+	next: state.items.next,
+	previous: state.items.previous,
 });
 
 
 export default connect(
 	mapStateToProps, 
-	{getItems, addInCart, filterItemsByCategory})
+	{getItems, addInCart })
 	(Items);

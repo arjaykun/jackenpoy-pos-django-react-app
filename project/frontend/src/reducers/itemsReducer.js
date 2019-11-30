@@ -6,6 +6,9 @@ const initialState = {
 	filtered_items: [],
 	categories: [],
 	loading: false,
+	next: null,
+	previous: null,
+	count:0,
 };
 
 export default function(state=initialState, action) {
@@ -20,6 +23,9 @@ export default function(state=initialState, action) {
 				...state, 
 				items: action.payload.items,
 				categories: action.payload.categories,
+				previous: action.payload.previous,
+				next: action.payload.next,
+				count: action.payload.count,
 				loading: false,
 			}
 		case CREATE_ITEM: {

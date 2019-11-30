@@ -2,14 +2,14 @@ import axios from 'axios';
 import { GET_SALES, SALES_LOADING } from './types';
 import createHeader from './createHeader';
 
-export const getSales = () => (dispatch, getState) => {
+export const getSales = (dsales='api/dsales/') => (dispatch, getState) => {
 	console.log("get sales stats..")
 	// create header
 	const config = createHeader(getState().auth.token);
 
 	dispatch({type:SALES_LOADING});
 
-	axios.get('api/dsales/',config)
+	axios.get(dsales,config)
 	 	.then(daily => {
 	 		axios.get('api/msales/', config)
 	 			.then(monthly => {

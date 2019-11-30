@@ -21,6 +21,7 @@ function Orders(props) {
 	const [viewModal, setViewModal] = useState(false);
 	const [order, setOrder] = useState({});
 	const [orderId, setOrderId] = useState(0);
+	const [search, setSearch] =useState('');
 	const [orderItems, setOrderItems] = useState([]);
 
 	const handleComplete = order=> {
@@ -46,7 +47,24 @@ function Orders(props) {
 				<div className="container my-3 p-3 border">
 					<AdminNav option="orders" />
 					<br />
-					<h4>Order Logs</h4>
+					<div className="d-flex justify-content-between flex-wrap">
+						<h4>Order Logs ( results: {props.count} )</h4>
+
+						<div className="input-group w-25">
+						  <input type="text" className="form-control" value={search} 
+						 	 placeholder="Search here..." 
+						 	 onChange={ (e) => setSearch(e.target.value) }/>
+						  <div className="input-group-append">
+						    <button className="btn btn-outline-primary" type="button"
+						    	onClick={ 
+						    		()=> props.getOrders(`api/orders?search=${search}`)}
+						    >
+						    	<i className="fas fa-search"></i>
+						    </button>
+						  </div>
+						</div>	
+					</div>
+
 					<table className="table mt-3">
 					    <thead className="thead-dark">
 					      <tr>
@@ -55,14 +73,30 @@ function Orders(props) {
 					        <th>Partial</th>
 					        <th>Discounted</th>
 					        <th>Total</th>
-					        <th>Date</th>
+					        <th>
+					        	<div className="d-flex">
+					        		<div className="mr-2">Date</div>
+						        	<div  className="text-light"
+						        		style={{cursor:"pointer"}}
+						        		onClick={ ()=> props.getOrders('api/orders?ordering=ordered_date')}>
+						        		<i className="fas fa-arrow-up"></i>
+						        	</div>
+						        	<div className="text-light"
+						        		style={{cursor:"pointer"}}
+						        		onClick={ ()=> props.getOrders('api/orders?ordering=-ordered_date')}>
+						        		<i className="fas fa-arrow-down"></i>
+						        	</div>
+					        	</div>
+					        </th>
 					        <th>Time</th>
+					        <th>Type</th>
 					        <th>Status</th>
 					        <th>Actions</th>
 					      </tr>
 					    </thead>
 					    <tbody>
 					      {
+					      	props.count > 0 ?
 					      	props.orders.map( o => (
 					      	   <tr key={o.id}>
 						        <td>{o.or_number}</td>
@@ -77,6 +111,9 @@ function Orders(props) {
 						     	</td>
 						     	<td>
 						     		{new Date(o.ordered_date).toLocaleTimeString()}
+						     	</td>
+						     	<td>
+						     		{o.is_dine? "Dine-in" : "Take-out"}
 						     	</td>
 						     	<td>
 						     		{o.is_completed? 
@@ -112,10 +149,29 @@ function Orders(props) {
 									</div>
 						        </td>
 						      </tr>
-					      	))
+					      	)) :
+					      	<tr>
+					      		<td colSpan="10" className="text-center">
+					      			<div className="jumbotron"><h1>No Search Results</h1></div>
+					      		</td>
+					      	</tr>
 					      }
 					    </tbody>
 				  </table>
+				  <div className="d-flex justify-content-center w-100">
+				  	<button className="btn btn-info mx-1"
+				  		disabled={props.previous!== null? false : true}
+				  		onClick={ ()=> props.getOrders(props.previous)} 
+				  		>
+				  		PREVIOUS
+				  	</button>
+				  	<button className="btn btn-info mx-1"
+				  		disabled={props.next!== null? false : true}
+				  		onClick={ ()=> props.getOrders(props.next)} 
+				  		>
+				  		NEXT
+				  	</button>
+				  </div>
 				</div>
 			}
 
@@ -172,10 +228,14 @@ Orders.propTypes = {
 	getOrders: PropTypes.func.isRequired,
 	loading: PropTypes.bool.isRequired,
 	users: PropTypes.array.isRequired,
+	count: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = state => ({
 	orders: state.order.orders, 
+	count: state.order.count,
+	next: state.order.next,
+	previous: state.order.previous,
 	loading: state.order.loading,
 	users: state.users.users,
 })
