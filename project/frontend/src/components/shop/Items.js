@@ -10,7 +10,7 @@ import Loader from '../layouts/Loader';
 function Items(props) {
 	const [search, setSearch] = useState('')
 	useEffect ( ()=> {
-		props.getItems('api/aitems', true);
+		props.getItems('api/aitems?ordering=name', true);
 	}, []);
 
 

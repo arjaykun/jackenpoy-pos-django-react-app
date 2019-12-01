@@ -8,12 +8,16 @@ import Rodal from 'rodal';
 import ConfirmForm from './ConfirmForm';
 import ViewModal from './ViewModal';
 import {viewOrderItems} from '../../actions/order';
-
+import {getItems} from '../../actions/items';
+import Moment from 'react-moment';
+import DatePicker from 'react-datepicker'  
+import moment from 'moment'
 function Orders(props) {
 
 	useEffect( () => {
 		props.viewOrderItems();
-		props.getOrders();
+			props.getOrders();
+		props.getItems('api/aitems/', true)
 	}, []);
 
 	const [confirmModal, setConfirmModal] = useState(false);
@@ -23,6 +27,9 @@ function Orders(props) {
 	const [orderId, setOrderId] = useState(0);
 	const [search, setSearch] =useState('');
 	const [orderItems, setOrderItems] = useState([]);
+	const [startDate, setStartDate] = useState(new Date());
+	const [endDate, setEndDate] = useState(new Date());
+
 
 	const handleComplete = order=> {
 		setOrder(order);
@@ -38,7 +45,13 @@ function Orders(props) {
 		setOrder(order);
 		setOrderItems(oi)
 		setViewModal(true);
+	}
 
+	const filterOrderByDateRange = () => {
+		const start = moment(startDate).format("YYYY-MM-DD")
+		const end = moment(endDate).format("YYYY-MM-DD")
+		
+		props.getOrders(`api/orders?date_after=${start}&date_before=${end}&search=${search}`);
 	}
 
 	return(
@@ -65,6 +78,43 @@ function Orders(props) {
 						</div>	
 					</div>
 
+					<div className="bg-light p-2 mt-1 ">						
+						<button className="btn btn-link text-dark" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+					    	Filter Orders By Date
+					    </button>
+					    <div className="collapse" id="collapseExample">
+						  <div className="d-flex flex-wrap justify-content-between align-items-center">
+						  	<div className="mb-1">
+								<span className="mr-1">Username:</span>
+						  		<input value={search} onChange={(e) => setSearch(e.target.value)}/>
+						  	</div>
+						  	<div className="mb-1">
+								<span className="mr-1">Start date:</span>
+								<DatePicker 
+									dateFormat="yyyy-MM-dd"
+									selected={startDate} 
+									onChange={date => setStartDate(date)}
+									 />
+							</div>
+							<div className="mb-1">
+								<span className="mr-1">End date: </span> 
+								<DatePicker 
+									dateFormat="yyyy-MM-dd"
+									selected={endDate} 
+									onChange={date => setEndDate(date)}
+									 />
+							</div>
+						  </div>
+
+							<button className="btn btn-primary float-right my-2 ml-5"
+								onClick={() => filterOrderByDateRange()}>
+								Filter
+							</button>
+
+							<div style={{clear:"both"}}></div>
+						</div>
+					</div>
+
 					<table className="table mt-3">
 					    <thead className="thead-dark">
 					      <tr>
@@ -88,7 +138,6 @@ function Orders(props) {
 						        	</div>
 					        	</div>
 					        </th>
-					        <th>Time</th>
 					        <th>Type</th>
 					        <th>Status</th>
 					        <th>Actions</th>
@@ -107,10 +156,7 @@ function Orders(props) {
 						        <td>&#8369;{o.discounted_price}</td>
 						        <td>&#8369;{o.total_price} </td>
 						     	<td>
-						     		{new Date(o.ordered_date).toDateString()}
-						     	</td>
-						     	<td>
-						     		{new Date(o.ordered_date).toLocaleTimeString()}
+						     		<Moment format="MM/DD/YYYY hh:mm A">{o.ordered_date}</Moment>
 						     	</td>
 						     	<td>
 						     		{o.is_dine? "Dine-in" : "Take-out"}
@@ -240,4 +286,4 @@ const mapStateToProps = state => ({
 	users: state.users.users,
 })
 
-export default connect(mapStateToProps, {getOrders, viewOrderItems})(Orders);
+export default connect(mapStateToProps, {getOrders, viewOrderItems, getItems})(Orders);

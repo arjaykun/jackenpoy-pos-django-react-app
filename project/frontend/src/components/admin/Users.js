@@ -26,6 +26,9 @@ function Users(props) {
 		setPasswordForm(true);
 	}
 	const handleDelete = user => {
+		if(user.id === props.user_id) {
+			return;
+		}
 		setChoice(user);
 		setConfirm(true);
 	}
@@ -83,16 +86,21 @@ function Users(props) {
 	  						change <i className="fas fa-pen"> </i>
 	  					</button></td>
 	  					<td>	
-	  						<button 
-								className="btn text-light bg-danger rounded-circle mr-1"
-								onClick={() => handleDelete(user)}
-							>
-								<i className="fas fa-trash "></i>
-							</button>
-	  						<button className="btn text-light bg-info rounded-circle mr-1" 
-							 		onClick={()=> handleUpdate(user)}>
-							 	<i className="fas fa-pen"></i>
-							 </button>
+	  						{ user.id === props.user_id ? <span></span>:
+	  						<div>
+		  						<button 
+									className="btn text-light bg-danger rounded-circle mr-1"
+									onClick={() => handleDelete(user)}
+								>
+									<i className="fas fa-trash "></i>
+								</button>
+								<button className="btn text-light bg-info rounded-circle mr-1" 
+								 		onClick={()=> handleUpdate(user)}>
+								 	<i className="fas fa-pen"></i>
+								 </button>
+							 </div>
+							}	
+	  						
 	  					</td>
 	  				</tr>
 	  			)):
@@ -146,10 +154,12 @@ function Users(props) {
 
 Users.propTypes = {
 	users: PropTypes.array.isRequired,
+	user_id: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = state => ({
-	users: state.users.users
+	users: state.users.users,
+	user_id: state.auth.user.id
 });
 
 export default connect(mapStateToProps)(Users);

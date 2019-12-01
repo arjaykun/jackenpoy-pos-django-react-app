@@ -19,24 +19,25 @@ function ViewModal(props) {
 	return (
 		<Fragment>
 			<h5>OR# {order.or_number}</h5>
-
-			<table className="table table-striped mt-3">
-				<thead>
-					<tr>
-						<th className="w-25">Item</th>
-						<th className="w-25">Price</th>
-						<th className="w-25">Qty</th>
-						<th className="w-25">Subtotal</th>
-					</tr>
-				</thead>
-				<tbody>
-					{o_items}
-				</tbody>
-			</table>
-			<div className="text-right bg-secondary p-3">
-			<h3>Discounted: <strong>&#8369;{order.discounted_price}</strong> </h3>
-			<h3>Total: <strong>&#8369;{order.total_price}</strong> </h3>
-		</div>
+			<div className="overflow-auto">
+				<table className="table table-striped mt-3">
+					<thead>
+						<tr>
+							<th className="w-25">Item</th>
+							<th className="<w-25></w-25>">Price</th>
+							<th className="w-25">Qty</th>
+							<th className="w-25">Subtotal</th>
+						</tr>
+					</thead>
+					<tbody>
+						{o_items}
+					</tbody>
+				</table>
+				<div className="text-right bg-secondary p-3">
+					<h3>Discounted: <strong>&#8369;{order.discounted_price}</strong> </h3>
+					<h3>Total: <strong>&#8369;{order.total_price}</strong> </h3>
+				</div>
+			</div>
 		</Fragment>
 	)
 }

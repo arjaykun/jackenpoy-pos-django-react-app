@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import Panel from './Panel'
+
 function SalePanels(props) {
 	const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
 					'September', 'October', 'November', 'December']

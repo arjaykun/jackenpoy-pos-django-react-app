@@ -8,6 +8,7 @@ from django.db.models import Sum, Count
 from .models import Item, Category, Order, OrderItem
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django_filters import rest_framework as rfilters
+from django_filters import FilterSet, BooleanFilter, CharFilter, DateFromToRangeFilter
 from rest_framework import filters
 from rest_framework import pagination
 from .serializers import (ItemSerializer,
@@ -42,9 +43,11 @@ class AllItemList(ListAPIView):
     permission_classes = [AllowAny]
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    filter_backends = (rfilters.DjangoFilterBackend, filters.SearchFilter,)
+    filter_backends = (rfilters.DjangoFilterBackend, filters.SearchFilter,
+                       filters.OrderingFilter)
     filterset_fields = ('category',)
     search_fields = ['name']
+    ordering_fields = ['name']
     ordering = ['name']
 
 
@@ -80,13 +83,24 @@ class OrderItemCreate(ListCreateAPIView):
     serializer_class = OrderItemSerializer
 
 
+class OrderFilter(FilterSet):
+    is_dine = BooleanFilter(field_name='is_dine')
+    is_completed = BooleanFilter(field_name='is_completed')
+    user = CharFilter(field_name='user__username')
+    date = DateFromToRangeFilter(field_name="ordered_date")
+
+    class Meta:
+        model = Order
+        fields = ['is_dine', 'is_completed', 'user', 'date']
+
+
 class OrderListCreate(ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_backends = (rfilters.DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter)
-    filterset_fields = ('is_dine', 'is_completed', 'user__username')
+    filter_class = OrderFilter
     search_fields = ['or_number', 'user__username']
     ordering_fields = ['ordered_date']
     ordering = ['-ordered_date']
@@ -99,14 +113,23 @@ class OrderUpdate(RetrieveUpdateDestroyAPIView):
     serializer_class = OrderSerializer
 
 
+class SalesFilter(FilterSet):
+    date = DateFromToRangeFilter(field_name="date")
+
+    class Meta:
+        model = Order
+        fields = ['date']
+
+
 class DailySales(ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = SalesSerializer
     queryset = Order.objects.all()
     filter_backends = (rfilters.DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter)
+    filter_class = SalesFilter
     search_fields = ['date']
-    ordering_fields = ['date']
+    ordering_fields = ['date', 'sales', 'count']
 
     def get_queryset(self):
         queryset = self.queryset

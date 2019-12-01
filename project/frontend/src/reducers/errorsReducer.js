@@ -1,7 +1,11 @@
 import { GET_ERRORS, CLEAR_ERROR } from '../actions/types.js';
 
 const initialState = {
-	msg: {},
+	msg: {
+		username: null,
+		old_password: null,
+		email: null,
+	},
 	status: 200,
 	statusText: '',
 };

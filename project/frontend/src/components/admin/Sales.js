@@ -7,12 +7,17 @@ import MonthlySales from './sales/MonthlySales';
 import YearlySales from './sales/YearlySales';
 import Loader from '../layouts/Loader';
 import {getSales} from '../../actions/sales';
+import DatePicker from 'react-datepicker' 
+import moment from 'moment'; 
 
 function Sales(props) {
 
 	useEffect( () => {
 		props.getSales()
 	}, [])
+
+	const [startDate, setStartDate] = useState(new Date());
+	const [endDate, setEndDate] = useState(new Date());
 
 	const [option, setOption] = useState('daily');
 	const dateFiltering = (option === "daily" ? 
@@ -21,7 +26,44 @@ function Sales(props) {
 						  		<MonthlySales sales={props.monthly} /> :
 						  		<YearlySales sales={props.yearly} />	
 						  )
-	
+	const handleDailySales = () => {
+		const start = moment(startDate).format("YYYY-MM-DD")
+		const end = moment(endDate).format("YYYY-MM-DD")
+		
+		props.getSales(`api/dsales?date_after=${start}&date_before=${end}`)
+	}
+
+	const handleTodayFilter = () => {
+		const start = moment().format("YYYY-MM-DD")
+		const end = moment().format("YYYY-MM-DD")
+
+		props.getSales(`api/dsales?date_after=${start}&date_before=${end}`)
+	}
+
+	const handle7DaysFilter = () => {
+		const start = moment().subtract(6, 'days').format("YYYY-MM-DD")
+		const end = moment().format("YYYY-MM-DD")
+
+		props.getSales(`api/dsales?date_after=${start}&date_before=${end}`)
+	}
+
+	const handleThisMonth = () => {
+	 	const start =  moment().startOf('month').format("YYYY-MM-DD");
+		const end  = moment().endOf("month").format("YYYY-MM-DD");
+
+		props.getSales(`api/dsales?date_after=${start}&date_before=${end}`)
+	}
+
+	const handleLastMonth = () => {
+		const last_month = moment().subtract(1, "month");
+	 	const start =  moment(last_month).startOf('month').format("YYYY-MM-DD");
+		const end  = moment(last_month).endOf("month").format("YYYY-MM-DD");
+
+		props.getSales(`api/dsales?date_after=${start}&date_before=${end}`)
+	}
+
+
+
 
 	return(
 		<Fragment>
@@ -31,38 +73,106 @@ function Sales(props) {
 					<AdminNav option="sales" />
 					<br />
 					<div className="d-flex p-1 flex-wrap">
-						<div className="mb-1 card py-2 bg-light mr-2">
+						<div className="mb-1 card py-2 bg-light mr-2 w-25">
 							<div className="p-1">
 								<h4 className="text-center">Filter Sales</h4>
-								  <ul className="list-group list-group-flush">
-									  <li className="list-group-item">
-									  		<button className="btn btn-link text-dark"
-												onClick={() => setOption("daily")}				  			
-									  		>Daily Sales</button>
-									  	</li>
-									  <li className="list-group-item">
-									  		<button className="btn btn-link text-dark"
-									  			onClick={() => setOption("monthly")}
-									  		>Monthly Sales</button>
-									  </li>
-									  <li className="list-group-item">
-									  		<button className="btn btn-link text-dark"
-									  			onClick={() => setOption("yearly")}
-									  		>Yearly Sales</button>
-									  </li>
-								 </ul> 
+								 <div id="accordion">
+								  <div className="card">
+								    <div className="card-header bg-dark" id="headingOne">
+								      <h5 className="mb-0">
+								        <button className="btn btn-link text-light" 
+								        	onClick={() => setOption("daily")}
+								        	data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								       		Daily Sales
+								        </button>
+								      </h5>
+								    </div>
+
+								    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+								      <div className="d-flex flex-column justify-content-center align-items-center">
+								      	
+								      	<div className="my-1">
+								      		<span>Start Date:</span> <br />
+											<DatePicker 
+												dateFormat="yyyy-MM-dd"
+												selected={startDate} 
+												onChange={date => setStartDate(date)}
+											 />
+								      	</div>
+
+								      	<div>
+								      		<span>End Date:</span> <br />
+											<DatePicker 
+												dateFormat="yyyy-MM-dd"
+												selected={endDate} 
+												onChange={date => setEndDate(date)}
+											 />
+								      	</div>
+
+								      	<button 
+								      		onClick={ () => handleDailySales() }
+								      		className="btn w-75 my-2 px-2 btn-primary">
+								      		Filter
+								      	</button>
+
+								      </div>
+								      <ul className="list-group list-group-flush mt-2">
+											<li className="list-group-item">
+													<button className="btn btn-link text-dark"
+														onClick={ ()=> handleTodayFilter()}				  			
+											  		>Today</button>
+											</li>
+											<li className="list-group-item">
+													<button className="btn btn-link text-dark"
+														onClick={ ()=> handle7DaysFilter()}				  							  			
+											  		>Last 7 Days</button>
+											</li>
+											<li className="list-group-item">
+													<button className="btn btn-link text-dark"				  			
+											  			onClick={ ()=> handleThisMonth()}
+											  		>This Month</button>
+											</li>	
+											<li className="list-group-item">
+													<button className="btn btn-link text-dark"
+														onClick={ ()=> handleLastMonth()}				  			
+											  		>Last Month</button>
+											</li>
+									   </ul>
+
+								    </div>
+								  </div>
+								  <div className="card">
+								    <div className="card-header bg-dark" id="headingTwo">
+								      <h5 className="mb-0">
+								        <button className="btn btn-link collapsed text-light" 
+								        	onClick={() => setOption("monthly")}
+								         data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+								          MonthlySales
+								        </button>
+								      </h5>
+								    </div>
+								    <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+								     
+								    </div>
+								  </div>
+								  <div className="card">
+								    <div className="card-header bg-dark" id="headingThree">
+								      <h5 className="mb-0">
+								        <button className="btn btn-link collapsed text-light" 
+								        onClick={() => setOption("yearly")}
+								        data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+								          Yearly Sales
+								        </button>
+								      </h5>
+								    </div>
+								    <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+								      
+								    </div>
+								  </div>
+								</div>
 							</div>
 						</div>
 						<div className="card py-2 flex-grow-1">
-							<div className="d-flex justify-content-end mb-2">
-								<button className="btn btn-danger mr-2">
-									Export to PDF
-								</button>
-
-								<button className="btn btn-success">
-									Export to EXCEL
-								</button>
-							</div>
 							<div className="px-2">
 								{dateFiltering}
 							</div>

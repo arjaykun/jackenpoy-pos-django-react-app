@@ -46,7 +46,8 @@ function UpdateForm(props) {
 				:	
 					props.loading?
 					<div className="alert alert-danger text-center">
-						{props.error.msg !== null ? props.error.msg.username.join() : <span></span>}
+						{typeof props.error.msg.username !== "undefined" ?
+							 props.error.msg.username.join() : <span></span>}
 					</div> : <span></span>
 				:
 				<span></span>

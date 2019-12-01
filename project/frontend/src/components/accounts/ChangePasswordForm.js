@@ -52,7 +52,8 @@ function ChangePasswordForm(props) {
 				:	
 					props.loading?
 					<div className="alert alert-danger text-center">
-						{props.error.msg !== null ? props.error.msg.old_password.join() : <span></span>}
+						{typeof props.error.msg.old_password !== "undefined"?
+						 props.error.msg.old_password.join() : <span></span>}
 					</div> : <span></span>
 				:
 				<span></span>

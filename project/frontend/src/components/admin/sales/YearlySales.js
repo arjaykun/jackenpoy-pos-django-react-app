@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
+import Reports from './Reports';
 
 function YearlySales(props) {
 	return (
 		<Fragment>
-
+			  <Reports sales={props.sales} />
 			  <table className="table">
 				    <thead className="thead-dark">
 				      <tr>
