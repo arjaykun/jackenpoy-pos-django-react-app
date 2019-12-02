@@ -27,6 +27,14 @@ function OrderModal(props) {
 		}
 	}, [props.loading])
 
+	const getOrNumber = () => {
+		const d = new Date();
+		const or_number =  d.getMonth() + "" + d.getDay() + "" + d.getHours()
+		+ "" + d.getMinutes()  + "" +  Date.now().toString().substring(9);
+
+		return or_number;
+	}
+
 	const hangeChange = (value) => {
 		setPayment(value);
 		if(/^[0-9\. ]+$/.test(value)) {
@@ -63,6 +71,7 @@ function OrderModal(props) {
 						'total_price': cart.total, 
 						'discounted_price': cart.discounted,
 						'is_dine': dine,
+						'or_number': getOrNumber()
 					}, 
 					cart.items
 				)
@@ -87,7 +96,7 @@ function OrderModal(props) {
 	         	<div className="col-md-6">
 	         		<form className="form card p-2">
 		        	<div className="bg-info p-3 card text-light mb-1">
-		        		<h1>Amount Due: <strong>&#8369;{cart.total}</strong></h1>
+		        		<h1>Amount Due: <strong>&#8369;{cart.total.toFixed(2)}</strong></h1>
 		        	</div>
 
 		        	<div className="bg-dark p-2 card text-light">	
@@ -107,7 +116,7 @@ function OrderModal(props) {
 			        			Discounted: <br/><strong>&#8369; {cart.discounted.toFixed(2)}</strong>
 			        		</h3>
 			        		<h3 className="w-50 border border-light p-2">
-			        			Change: <br/><strong>&#8369; {change}</strong>
+			        			Change: <br/><strong>&#8369; {change.toFixed(2)}</strong>
 			        		</h3>
 		        		</div>
 
@@ -146,7 +155,7 @@ function OrderModal(props) {
 	         	</div>
 	         	<div className="col-md-6">
 				  <Receipt cart={cart} ref={receiptRef} payment={payment}
-				   change={change} is_print={print} />
+				   change={change} is_print={print} or_number={getOrNumber()} />
 				 </div>
 	         </div>
 		        

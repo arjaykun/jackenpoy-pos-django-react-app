@@ -33,8 +33,8 @@ function Sales(props) {
 		props.getSales(`api/dsales?date_after=${start}&date_before=${end}`)
 	}
 
-	const handleTodayFilter = () => {
-		const start = moment().format("YYYY-MM-DD")
+	const handle15DaysFilter = () => {
+		const start = moment().subtract(14, 'days').format("YYYY-MM-DD")
 		const end = moment().format("YYYY-MM-DD")
 
 		props.getSales(`api/dsales?date_after=${start}&date_before=${end}`)
@@ -73,7 +73,7 @@ function Sales(props) {
 					<AdminNav option="sales" />
 					<br />
 					<div className="d-flex p-1 flex-wrap">
-						<div className="mb-1 card py-2 bg-light mr-2 w-25">
+						<div className="mb-1 card py-2 bg-light w-25">
 							<div className="p-1">
 								<h4 className="text-center">Filter Sales</h4>
 								 <div id="accordion">
@@ -119,13 +119,13 @@ function Sales(props) {
 								      <ul className="list-group list-group-flush mt-2">
 											<li className="list-group-item">
 													<button className="btn btn-link text-dark"
-														onClick={ ()=> handleTodayFilter()}				  			
-											  		>Today</button>
+														onClick={ ()=> handle7DaysFilter()}				  							  			
+											  		>Last 7 Days</button>
 											</li>
 											<li className="list-group-item">
 													<button className="btn btn-link text-dark"
-														onClick={ ()=> handle7DaysFilter()}				  							  			
-											  		>Last 7 Days</button>
+														onClick={ ()=> handle15DaysFilter()}				  							  			
+											  		>Last 15 Days</button>
 											</li>
 											<li className="list-group-item">
 													<button className="btn btn-link text-dark"				  			
@@ -172,7 +172,7 @@ function Sales(props) {
 								</div>
 							</div>
 						</div>
-						<div className="card py-2 flex-grow-1">
+						<div className="card py-2 w-75">
 							<div className="px-2">
 								{dateFiltering}
 							</div>

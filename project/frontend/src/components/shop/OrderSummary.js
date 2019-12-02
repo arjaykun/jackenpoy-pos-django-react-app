@@ -72,10 +72,10 @@ function OrderSummary(props) {
 									<del className="text-secondary">
 										&#8369;{ item.price * item.quantity }
 									</del>
-									<span className="ml-1">&#8369;{item.discounted_price}</span>
+									<span className="ml-1">&#8369;{item.discounted_price.toFixed(2)}</span>
 								</div>
 								:
-									<span>&#8369;{ item.price * item.quantity }</span>
+									<span>&#8369;{ (item.price * item.quantity).toFixed(2) }</span>
 								}
 							</td>
 							<td>

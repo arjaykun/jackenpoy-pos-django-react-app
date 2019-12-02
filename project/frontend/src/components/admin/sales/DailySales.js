@@ -4,6 +4,8 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import CsvDownloader from 'react-csv-downloader';
 import Reports from './Reports'
+import LineChart from './LineChart';
+import moment from 'moment';
 function DailySales(props) {
 	const count = props.sales.reduce( (a,b) => (
  						a+ Number(b.count)), 0)
@@ -12,7 +14,27 @@ function DailySales(props) {
 
 	return (
 		<Fragment>
+		  <div className="row mb-2">
+		  	  <div className="col-md-6">
+				  <LineChart 
+				  	label="Daily Sales" 
+				  	labels={props.sales.map( s => moment(s.date).format("MM/DD/YYYY"))} 					
+				 	data={props.sales.map( s => s.sales)}
+				 	bgColor="rgba(255,153,0,0.6)"	
+				  />
+			  </div>
+			  <div className="col-md-6">
+				  <LineChart 
+				  	label="Daily Order Count" 
+				  	labels={props.sales.map( s => moment(s.date).format("MM/DD/YYYY"))} 					
+				 	data={props.sales.map( s=> s.count)}
+				 	bgColor="rgba(153,255,51,0.6)"
+				  />
+			  </div>
+		  </div>
+
 		  <Reports sales={props.sales} />
+		  
 		  <table className="table dtable">
 			    <thead className="thead-dark">
 			      <tr>

@@ -78,7 +78,10 @@ function Login(props) {
 					    	value={password}
 					    	onChange={ e => setPassword(e.target.value)} />
 					  </div>
-					  <button type="submit" className="btn btn-dark mx-auto d-block btn-small">Login</button>
+					  <button type="submit" className="btn btn-dark mx-auto d-block btn-small">
+					  	Login <i className="fas fa-sign-in-alt"> </i>
+					   </button>
+					  
 					  <br/ >
 					{
 					props.error.status === 400 || fieldError !== ''?

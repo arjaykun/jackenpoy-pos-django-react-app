@@ -2,6 +2,7 @@ import React, {Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {completeOrder} from '../../actions/order';
+import Moment from 'react-moment';
 function OrderBox(props) {
 	
 	const order = props.order;
@@ -14,6 +15,8 @@ function OrderBox(props) {
 	return (
 		<div className="card p-2 m-1" style={styles}>
 			<h5>OR# {order.or_number}</h5>
+			<small>Date: <i><Moment format="MM/DD/YY">{order.ordered_date}</Moment></i></small>
+			<small>Time: <i><Moment format="hh:mm A">{order.ordered_date}</Moment></i></small>
 			<table className="table table-striped">
 				<thead>
 					<tr>

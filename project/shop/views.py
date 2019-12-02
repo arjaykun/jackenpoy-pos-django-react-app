@@ -27,7 +27,7 @@ class StandardResultsSetPagination(pagination.PageNumberPagination):
 
 
 class ItemList(ListCreateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_backends = (rfilters.DjangoFilterBackend, filters.SearchFilter,
@@ -40,7 +40,7 @@ class ItemList(ListCreateAPIView):
 
 
 class AllItemList(ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_backends = (rfilters.DjangoFilterBackend, filters.SearchFilter,
@@ -66,13 +66,13 @@ class CategoryList(ListAPIView):
 
 
 class CategoryCreate(CreateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer2
 
 
 class CategoryUpdate(RetrieveUpdateDestroyAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer2
 
@@ -95,7 +95,7 @@ class OrderFilter(FilterSet):
 
 
 class OrderListCreate(ListCreateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_backends = (rfilters.DjangoFilterBackend,
@@ -122,7 +122,7 @@ class SalesFilter(FilterSet):
 
 
 class DailySales(ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     serializer_class = SalesSerializer
     queryset = Order.objects.all()
     filter_backends = (rfilters.DjangoFilterBackend,
@@ -140,7 +140,7 @@ class DailySales(ListAPIView):
 
 
 class MonthlySales(ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     serializer_class = SalesSerializer
     queryset = Order.objects.all()
 
@@ -153,7 +153,7 @@ class MonthlySales(ListAPIView):
 
 
 class YearlySales(ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     serializer_class = SalesSerializer
     queryset = Order.objects.all()
 

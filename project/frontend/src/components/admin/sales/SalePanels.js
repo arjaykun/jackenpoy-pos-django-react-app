@@ -8,7 +8,7 @@ function SalePanels(props) {
 		<Fragment>
 			<div className="row mt-3 px-1">
 
-				 <div className="col-sm-3 mb-1">
+				 <div className="col-sm-4 mb-1">
 				 	<Panel 
 				 		title="Daily Sales" 
 				 		subtitle={ new Date().toDateString()}
@@ -23,7 +23,7 @@ function SalePanels(props) {
 				 </div>
 
 
-				 <div className="col-sm-3 mb-1">
+				 <div className="col-sm-4 mb-1">
 				 	<Panel 
 				 		title="Daily Order Count" 
 				 		subtitle={ new Date().toDateString()}
@@ -38,7 +38,7 @@ function SalePanels(props) {
 				 </div>
 
 				
-				 <div className="col-sm-3 mb-1">
+				 <div className="col-sm-4 mb-1">
 					  <Panel 
 					  	title="Yearly Sales" 
 					  	subtitle={ new Date().getFullYear() }
@@ -51,8 +51,10 @@ function SalePanels(props) {
 		                		: <div className="spinner-border text-light"></div>}
 		            	</Panel>
 				 </div>
+			 </div>
 
-				 <div className="col-sm-3 mb-1">
+			 <div className="row mt-3 px-1">
+				 <div className="col-sm-4 mb-1">
 					 <Panel 
 					 	title="Monthly Sales" 
 					 	subtitle={ month[new Date().getMonth()] }
@@ -66,11 +68,7 @@ function SalePanels(props) {
 	                		: <div className="spinner-border text-light"></div>}
 	            	</Panel>
 				 </div>
-
-			 </div>
-
-			 <div className="row mt-3 px-1">
-				 <div className="col-sm-3 mb-1">
+				 <div className="col-sm-4 mb-1">
 					 <Panel 
 					 	title="Monthly Order Count" 
 					 	subtitle={ month[new Date().getMonth()] }
@@ -85,7 +83,7 @@ function SalePanels(props) {
 	            	</Panel>
 				 </div>
 
-				 <div className="col-sm-3 mb-1">
+				 <div className="col-sm-4 mb-1">
 					  <Panel 
 					  	title="Yearly Order Count" 
 					  	subtitle={ new Date().getFullYear() }

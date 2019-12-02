@@ -12,7 +12,7 @@ function Order(props) {
  return (
  	<Fragment>
 		<div className="text-right bg-secondary p-3">
-			<h3>Amount Due: <strong>&#8369;{cart.total}</strong> </h3>
+			<h3>Amount Due: <strong>&#8369;{cart.total.toFixed(2)}</strong> </h3>
 		</div>
 		<button 
 			className="btn btn-primary btn-block"

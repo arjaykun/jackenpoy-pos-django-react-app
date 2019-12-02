@@ -11,11 +11,8 @@ export const createOrder = (order, orderitems) => (dispatch, getState) => {
 	
 	// create header
 	const config = createHeader(getState().auth.token);
-	const d = new Date();
-	const or_number =  d.getMonth() + "" + d.getDay() + "" + d.getHours()
-	+ "" + d.getMinutes()  + "" +  Date.now().toString().substring(9)
 	dispatch({type:ORDER_LOADING})
-	axios.post('api/orders/', {...order, or_number}, config)
+	axios.post('api/orders/',order , config)
 		.then( res => {
 			orderitems.forEach( item => {
 				axios.post('api/orderitems/',

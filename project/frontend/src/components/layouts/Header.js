@@ -36,7 +36,7 @@ class Header extends Component {
 			<Link className="nav-link" to="/login">
 		        <li className="nav-item">	
 					 <button className="btn btn-small btn-link text-light">
-				        	Login <i className=""> </i>
+				        	Login <i className="fas fa-sign-in-alt"> </i>
 				      </button>
 			      </li>
 		     </Link>
@@ -46,7 +46,11 @@ class Header extends Component {
 			 <nav className="navbar navbar-expand-md bg-dark navbar-dark">
 				<div className="container">
 				  {/*<!-- Brand -->*/}
-				  <a className="navbar-brand" href="#">Jack en Poy</a>
+				  <a className="navbar-brand" href="#">
+				  	<i className="mr-2 fas fa-hand-rock"> </i>
+				  	Jack en Poy <i className="ml-2 fas fa-hand-paper"> </i>
+				  	<i className="ml-2 fas fa-hand-scissors"> </i>
+				  </a>
 
 				  {/*<!-- Navbar links -->*/}
 				  	<ul className="navbar-nav ml-auto">
